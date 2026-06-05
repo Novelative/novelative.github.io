@@ -1201,6 +1201,12 @@ function NodeCardShowcase() {
   const [connectionPaths, setConnectionPaths] = useState<string[]>([]);
   const snapDuration = 8.8;
   const snapCardTimes = [0, 0.18, 0.34, 0.5, 0.64, 0.86, 1];
+  const snapGroupMotionTimes = [0, 0.8, 0.86, 0.92, 0.98, 1];
+  const snapGroupX = [0, 0, 28, 0, -28, 0];
+  const snapGroupY = [0, 0, -14, -30, -14, 0];
+  const snapCursorTimes = [0, 0.64, 0.68, 0.74, 0.8, 0.999, 1];
+  const snapCursorPark = { x: 484, y: 380 };
+  const snapCursorBase = { x: 150, y: 72 };
   const snapCards = [
     {
       id: "bridge",
@@ -1224,8 +1230,8 @@ function NodeCardShowcase() {
     },
     {
       id: "frost-vault",
-      title: "Frost Vault",
-      body: "A location card that locks under the ambush once the escape route is found.",
+      title: "Dead Men Tell No Tales",
+      body: "The rival student is found dead at the bottom of the campus bell tower the night before exposing them.",
       className: "nodecard-five",
       x: [86, 86, 86, 86, 0, 0, 0],
       y: [280, 280, 280, 280, 180, 180, 180],
@@ -1390,8 +1396,8 @@ function NodeCardShowcase() {
                   shouldReduceMotion
                     ? { x: 0, y: 0 }
                     : {
-                        x: [0, 0, 0, 0, 16, 0, -16, 0],
-                        y: [0, 0, 0, 0, -8, -18, -8, 0],
+                        x: snapGroupX,
+                        y: snapGroupY,
                       }
                 }
                 transition={
@@ -1401,7 +1407,7 @@ function NodeCardShowcase() {
                         duration: snapDuration,
                         repeat: Infinity,
                         repeatDelay: 0.35,
-                        times: [0, 0.36, 0.64, 0.68, 0.76, 0.84, 0.92, 1],
+                        times: snapGroupMotionTimes,
                         ease: "easeInOut",
                       }
                 }
@@ -1434,28 +1440,44 @@ function NodeCardShowcase() {
                     />
                   </motion.div>
                 ))}
+                {!shouldReduceMotion && (
+                  <motion.div
+                    className="nodecard-cursor"
+                    aria-hidden="true"
+                    animate={{
+                      x: [
+                        snapCursorPark.x,
+                        snapCursorPark.x,
+                        snapCursorPark.x,
+                        snapCursorBase.x,
+                        snapCursorBase.x,
+                        snapCursorBase.x,
+                        snapCursorBase.x,
+                      ],
+                      y: [
+                        snapCursorPark.y,
+                        snapCursorPark.y,
+                        snapCursorPark.y,
+                        snapCursorBase.y,
+                        snapCursorBase.y,
+                        snapCursorBase.y,
+                        snapCursorBase.y,
+                      ],
+                      opacity: [0, 0, 1, 1, 1, 1, 0],
+                      scale: [0.96, 0.96, 1, 0.9, 0.9, 0.9, 0.9],
+                    }}
+                    transition={{
+                      duration: snapDuration,
+                      repeat: Infinity,
+                      repeatDelay: 0.35,
+                      times: snapCursorTimes,
+                      ease: "easeInOut",
+                    }}
+                  >
+                    <MousePointer2 size={34} />
+                  </motion.div>
+                )}
               </motion.div>
-              {!shouldReduceMotion && (
-                <motion.div
-                  className="nodecard-cursor"
-                  aria-hidden="true"
-                  animate={{
-                    x: [500, 500, 308, 308, 324, 308, 292, 308, 500],
-                    y: [392, 392, 214, 214, 206, 196, 206, 214, 392],
-                    opacity: [0, 0, 1, 1, 1, 1, 1, 0, 0],
-                    scale: [0.96, 0.96, 1, 0.9, 0.9, 0.9, 0.9, 1, 1],
-                  }}
-                  transition={{
-                    duration: snapDuration,
-                    repeat: Infinity,
-                    repeatDelay: 0.35,
-                    times: [0, 0.58, 0.66, 0.7, 0.78, 0.86, 0.94, 0.98, 1],
-                    ease: "easeInOut",
-                  }}
-                >
-                  <MousePointer2 size={34} />
-                </motion.div>
-              )}
             </div>
           </motion.div>
 
