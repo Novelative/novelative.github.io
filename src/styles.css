@@ -376,42 +376,6 @@ video {
     box-shadow: 0 38px 110px rgba(0, 0, 0, 0.36);
 }
 
-.product-callout {
-    position: absolute;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    min-height: 2.25rem;
-    padding: 0.55rem 0.82rem;
-    border: 1px solid rgba(var(--color-app-border), 0.9);
-    border-radius: 999px;
-    background: rgba(var(--color-app-bg), 0.84);
-    backdrop-filter: blur(16px);
-    color: rgb(var(--color-app-text));
-    font-size: 0.78rem;
-    font-weight: 800;
-    box-shadow: 0 18px 46px rgba(0, 0, 0, 0.24);
-}
-
-.product-callout svg {
-    color: rgb(var(--color-app-highlight));
-}
-
-.callout-one {
-    left: -1.35rem;
-    top: 14%;
-}
-
-.callout-two {
-    right: -1.2rem;
-    top: 38%;
-}
-
-.callout-three {
-    left: 8%;
-    bottom: -1rem;
-}
-
 .jump-section {
     border-block: none;
     background: rgba(var(--color-app-surface), 0.72);
@@ -1092,16 +1056,55 @@ h3 {
     line-height: 1.72;
 }
 
-.nodecard-stage {
+.nodecard-demo-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.2rem;
+}
+
+.nodecard-demo-panel {
+    --nodecard-world-scale: 0.68;
     position: relative;
-    width: min(100%, 760px);
-    min-height: 500px;
-    margin-inline: auto;
-    overflow: visible;
-    border: 0;
-    border-radius: 0;
-    background: transparent;
-    box-shadow: none;
+    min-height: 390px;
+    overflow: hidden;
+    border: 1px solid rgba(var(--color-app-border), 0.86);
+    border-radius: 0.85rem;
+    background:
+        radial-gradient(
+            circle at 28% 24%,
+            rgba(var(--color-app-highlight), 0.12),
+            transparent 17rem
+        ),
+        rgba(var(--color-app-surface), 0.72);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.42);
+}
+
+.dark-mode .nodecard-demo-panel {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.nodecard-world {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 2;
+    width: 640px;
+    height: 460px;
+    margin-top: calc(-230px * var(--nodecard-world-scale));
+    margin-left: calc(-320px * var(--nodecard-world-scale));
+    transform: scale(var(--nodecard-world-scale));
+    transform-origin: top left;
+}
+
+.nodecard-snap-group {
+    position: absolute;
+    inset: 0;
+}
+
+.nodecard-snap-group .nodecard-motion,
+.nodecard-cursor {
+    top: 0;
+    left: 0;
 }
 
 .nodecard-stage-lines {
@@ -1125,9 +1128,21 @@ h3 {
     z-index: 2;
 }
 
-.nodecard-stage .app-nodecard-preview {
-    transform: scale(0.78);
-    transform-origin: top left;
+.nodecard-demo-panel .app-nodecard-preview {
+    margin: 0;
+}
+
+.nodecard-cursor {
+    position: absolute;
+    z-index: 4;
+    color: rgb(var(--color-app-text));
+    filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.22));
+}
+
+.nodecard-cursor svg {
+    fill: rgb(var(--color-app-bg));
+    stroke: rgb(var(--color-app-highlight));
+    stroke-width: 2.15;
 }
 
 .app-nodecard-preview {
@@ -3957,7 +3972,7 @@ a.inline-icon:focus-visible {
     .world-grid,
     .beta-grid,
     .story-map-showcase,
-    .nodecard-showcase {
+    .nodecard-demo-grid {
         grid-template-columns: 1fr;
     }
 
@@ -4056,20 +4071,6 @@ a.inline-icon:focus-visible {
         margin-top: 3.5rem;
     }
 
-    .product-callout {
-        position: static;
-        margin: 0.45rem 0.35rem 0 0;
-    }
-
-    .hero-product {
-        display: flex;
-        flex-wrap: wrap;
-    }
-
-    .hero-product img {
-        flex-basis: 100%;
-    }
-
     .typing-frame {
         min-height: 285px;
     }
@@ -4113,13 +4114,9 @@ a.inline-icon:focus-visible {
         text-align: center;
     }
 
-    .nodecard-stage {
-        min-height: 500px;
-    }
-
-    .nodecard-motion .app-nodecard-preview {
-        transform: scale(0.82);
-        transform-origin: center;
+    .nodecard-demo-panel {
+        --nodecard-world-scale: 0.62;
+        min-height: 350px;
     }
 
     .download-build-grid {
@@ -4233,6 +4230,11 @@ a.inline-icon:focus-visible {
 
     .purchase-hero h1 {
         font-size: clamp(2.55rem, 12vw, 4rem);
+    }
+
+    .nodecard-demo-panel {
+        --nodecard-world-scale: 0.46;
+        min-height: 290px;
     }
 
     .purchase-plan-card,

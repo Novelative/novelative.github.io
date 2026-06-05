@@ -72,7 +72,7 @@ export function DownloadPage({ theme }: { theme: Theme }) {
             <ArrowRight size={19} />
           </a>
           <div className="download-version">
-            <span>v0.1.4-beta</span>
+            <span>v0.1.6-beta</span>
             <span />
             <span>104 MB</span>
           </div>
@@ -92,8 +92,8 @@ export function DownloadPage({ theme }: { theme: Theme }) {
             <MotionCard className="download-panel download-release-panel">
               <p className="eyebrow">Latest Release</p>
               <div className="download-release-heading">
-                <h2>v0.1.5-beta</h2>
-                <span>Published April 25, 2026</span>
+                <h2>v0.1.6-beta</h2>
+                <span>Published June 5, 2026</span>
               </div>
               <p>
                 This download page now matches the current public beta release

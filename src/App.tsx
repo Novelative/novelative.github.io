@@ -22,7 +22,6 @@ import {
   BookOpen,
   Box,
   Braces,
-  Check,
   ChevronDown,
   Columns3,
   Compass,
@@ -43,6 +42,7 @@ import {
   MapPin,
   Menu,
   Moon,
+  MousePointer2,
   Network,
   SunDim,
   Scroll,
@@ -782,18 +782,6 @@ function Hero({ theme }: { theme: Theme }) {
             }
             alt="Novelative app interface showing split view"
           />
-          <div className="product-callout callout-one">
-            <Check size={15} />
-            Wiki-link created
-          </div>
-          <div className="product-callout callout-two">
-            <Network size={15} />
-            Canvas node snapped
-          </div>
-          <div className="product-callout callout-three">
-            <Tags size={15} />
-            Project tags mapped
-          </div>
         </motion.div>
       </div>
     </section>
@@ -1209,45 +1197,80 @@ function VisualizeStoryMap() {
 
 function NodeCardShowcase() {
   const stageRef = useRef<HTMLDivElement | null>(null);
+  const shouldReduceMotion = useReducedMotion();
   const [connectionPaths, setConnectionPaths] = useState<string[]>([]);
-  const cards = [
+  const snapDuration = 8.8;
+  const snapCardTimes = [0, 0.18, 0.34, 0.5, 0.64, 0.86, 1];
+  const snapCards = [
     {
       id: "bridge",
       title: "Bridge Ambush",
       body: "The chase spills onto the lower bridge after Elias finds the relic.",
       className: "nodecard-one",
-      x: 76,
-      y: 100,
+      x: [0, 0, 0, 0, 0, 0, 0],
+      y: [0, 0, 0, 0, 0, 0, 0],
+      finalX: 0,
+      finalY: 0,
     },
     {
-      id: "relic",
+      id: "embers",
+      title: "Embers in the Frost",
+      body: "A quiet aftermath scene where the relic's heat exposes a hidden trail.",
+      className: "nodecard-four",
+      x: [360, 360, 270, 270, 270, 270, 270],
+      y: [0, 0, 0, 0, 0, 0, 0],
+      finalX: 270,
+      finalY: 0,
+    },
+    {
+      id: "frost-vault",
+      title: "Frost Vault",
+      body: "A location card that locks under the ambush once the escape route is found.",
+      className: "nodecard-five",
+      x: [86, 86, 86, 86, 0, 0, 0],
+      y: [280, 280, 280, 280, 180, 180, 180],
+      finalX: 0,
+      finalY: 180,
+    },
+  ];
+  const connectionCards = [
+    {
+      id: "line-bridge",
+      title: "Bridge Ambush",
+      body: "The scene card links to the relic and the faction pursuing it.",
+      className: "nodecard-one",
+      x: 0,
+      y: 0,
+    },
+    {
+      id: "line-relic",
       title: "Sunfire Relic",
       body: "An object page for the relic, its cost, and every scene where it appears.",
       className: "nodecard-two",
-      x: 474,
-      y: 100,
+      x: 310,
+      y: 0,
     },
     {
-      id: "order",
+      id: "line-order",
       title: "Glass Order",
       body: "Faction notes, motives, and the pressure they create across the act.",
       className: "nodecard-three",
-      x: 275,
-      y: 264,
+      x: 155,
+      y: 224,
     },
   ];
   const connections: NodecardConnection[] = [
     {
-      from: { card: "bridge", side: "right" },
-      to: { card: "relic", side: "left" },
+      from: { card: "line-bridge", side: "right" },
+      to: { card: "line-relic", side: "left" },
     },
     {
-      from: { card: "bridge", side: "bottom" },
-      to: { card: "order", side: "top" },
+      from: { card: "line-bridge", side: "bottom" },
+      to: { card: "line-order", side: "top" },
     },
     {
-      from: { card: "relic", side: "bottom" },
-      to: { card: "order", side: "right" },
+      from: { card: "line-relic", side: "bottom" },
+      to: { card: "line-order", side: "top" },
     },
   ];
 
@@ -1351,51 +1374,140 @@ function NodeCardShowcase() {
           </p>
         </motion.div>
 
-        <motion.div
-          ref={stageRef}
-          className="nodecard-stage"
-          initial="rest"
-          whileInView="connected"
-          viewport={{ once: false, amount: 0.45 }}
-          transition={{ staggerChildren: 0.18 }}
-        >
-          <svg className="nodecard-stage-lines" aria-hidden="true">
-            {connectionPaths.map((path, index) => (
-              <motion.path
-                key={`${path}-${index}`}
-                d={path}
-                initial={{ pathLength: 0, opacity: 0 }}
-                whileInView={{
-                  pathLength: [0, 1, 1, 0],
-                  opacity: [0, 1, 1, 0],
-                }}
-                viewport={{ once: false, amount: 0.45 }}
-                transition={{
-                  duration: 8.5,
-                  delay: 1.2 + index * 0.75,
-                  repeat: Infinity,
-                  repeatDelay: 2,
-                  times: [0, 0.34, 0.74, 1],
-                  ease: "easeInOut",
-                }}
-              />
-            ))}
-          </svg>
-
-          {cards.map((card) => (
-            <div
-              className={`nodecard-motion ${card.className}`}
-              key={card.title}
-              style={{ left: card.x, top: card.y }}
-            >
-              <AppNodeCardPreview
-                id={card.id}
-                title={card.title}
-                body={card.body}
-              />
+        <div className="nodecard-demo-grid">
+          <motion.div
+            className="nodecard-demo-panel nodecard-snap-panel"
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.35 }}
+            variants={reveal}
+            transition={{ duration: 0.65 }}
+          >
+            <div className="nodecard-world">
+              <motion.div
+                className="nodecard-snap-group"
+                animate={
+                  shouldReduceMotion
+                    ? { x: 0, y: 0 }
+                    : {
+                        x: [0, 0, 0, 0, 16, 0, -16, 0],
+                        y: [0, 0, 0, 0, -8, -18, -8, 0],
+                      }
+                }
+                transition={
+                  shouldReduceMotion
+                    ? { duration: 0 }
+                    : {
+                        duration: snapDuration,
+                        repeat: Infinity,
+                        repeatDelay: 0.35,
+                        times: [0, 0.36, 0.64, 0.68, 0.76, 0.84, 0.92, 1],
+                        ease: "easeInOut",
+                      }
+                }
+              >
+                {snapCards.map((card) => (
+                  <motion.div
+                    className={`nodecard-motion ${card.className}`}
+                    key={card.id}
+                    animate={
+                      shouldReduceMotion
+                        ? { x: card.finalX, y: card.finalY }
+                        : { x: card.x, y: card.y }
+                    }
+                    transition={
+                      shouldReduceMotion
+                        ? { duration: 0 }
+                        : {
+                            duration: snapDuration,
+                            repeat: Infinity,
+                            repeatDelay: 0.35,
+                            times: snapCardTimes,
+                            ease: "easeInOut",
+                          }
+                    }
+                  >
+                    <AppNodeCardPreview
+                      id={card.id}
+                      title={card.title}
+                      body={card.body}
+                    />
+                  </motion.div>
+                ))}
+              </motion.div>
+              {!shouldReduceMotion && (
+                <motion.div
+                  className="nodecard-cursor"
+                  aria-hidden="true"
+                  animate={{
+                    x: [500, 500, 308, 308, 324, 308, 292, 308, 500],
+                    y: [392, 392, 214, 214, 206, 196, 206, 214, 392],
+                    opacity: [0, 0, 1, 1, 1, 1, 1, 0, 0],
+                    scale: [0.96, 0.96, 1, 0.9, 0.9, 0.9, 0.9, 1, 1],
+                  }}
+                  transition={{
+                    duration: snapDuration,
+                    repeat: Infinity,
+                    repeatDelay: 0.35,
+                    times: [0, 0.58, 0.66, 0.7, 0.78, 0.86, 0.94, 0.98, 1],
+                    ease: "easeInOut",
+                  }}
+                >
+                  <MousePointer2 size={34} />
+                </motion.div>
+              )}
             </div>
-          ))}
-        </motion.div>
+          </motion.div>
+
+          <motion.div
+            ref={stageRef}
+            className="nodecard-demo-panel nodecard-stage"
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.35 }}
+            variants={reveal}
+            transition={{ duration: 0.65, delay: 0.08 }}
+          >
+            <svg className="nodecard-stage-lines" aria-hidden="true">
+              {connectionPaths.map((path, index) => (
+                <motion.path
+                  key={`${path}-${index}`}
+                  d={path}
+                  initial={{ pathLength: shouldReduceMotion ? 1 : 0, opacity: 0 }}
+                  whileInView={{
+                    pathLength: shouldReduceMotion ? 1 : [0, 1, 1, 0],
+                    opacity: shouldReduceMotion ? 1 : [0, 1, 1, 0],
+                  }}
+                  viewport={{ once: false, amount: 0.45 }}
+                  transition={{
+                    duration: 8.5,
+                    delay: 0.45 + index * 0.45,
+                    repeat: shouldReduceMotion ? 0 : Infinity,
+                    repeatDelay: 1.4,
+                    times: shouldReduceMotion ? undefined : [0, 0.34, 0.78, 1],
+                    ease: "easeInOut",
+                  }}
+                />
+              ))}
+            </svg>
+
+            <div className="nodecard-world">
+              {connectionCards.map((card) => (
+                <div
+                  className={`nodecard-motion ${card.className}`}
+                  key={card.id}
+                  style={{ left: card.x, top: card.y }}
+                >
+                  <AppNodeCardPreview
+                    id={card.id}
+                    title={card.title}
+                    body={card.body}
+                  />
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );
@@ -1745,8 +1857,7 @@ function DownloadCta() {
           Start the next draft in a workspace built for the book around it.
         </h2>
         <p>
-          Try Novelative free for 30 days on Windows or macOS. No sign-up before
-          install, and your projects stay on your device.
+          Try Novelative free for 30 days of use on Windows or macOS. No sign-up, and your projects stay on your device.
         </p>
         <div className="final-download-actions">
           <div className="final-download-buttons">

@@ -12,13 +12,13 @@ import { MotionCard, ParticleCanvas, reveal } from "./shared";
 const releaseLinks = [
   {
     label: "Windows Release",
-    href: "https://github.com/Novelative/Win-User-Releases/releases/tag/v0.1.5-beta",
+    href: "https://github.com/Novelative/Win-User-Releases/releases/tag/v0.1.6-beta",
     icon: MonitorDown,
     primary: true,
   },
   {
     label: "macOS Release",
-    href: "https://github.com/Novelative/Mac-User-Releases/releases/tag/v0.1.5-beta",
+    href: "https://github.com/Novelative/Mac-User-Releases/releases/tag/v0.1.6-beta",
     icon: Apple,
     primary: false,
   },
@@ -84,9 +84,9 @@ export function ReleaseNotesPage() {
           <div className="release-top-grid">
             <MotionCard className="release-card release-current-card">
               <p className="eyebrow">Current Release</p>
-              <h2>Novelative v0.1.5-beta</h2>
+              <h2>Novelative v0.1.6-beta</h2>
               <p>
-                Published April 25, 2026 for both Windows and macOS. This is
+                Published June 5, 2026 for both Windows and macOS. This is
                 the current public beta build promoted from the download page.
               </p>
               <div className="release-action-row">
