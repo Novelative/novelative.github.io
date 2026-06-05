@@ -1,5 +1,9 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import type { PointerEvent as ReactPointerEvent, ReactNode } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import type {
+  CSSProperties,
+  PointerEvent as ReactPointerEvent,
+  ReactNode,
+} from "react";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 import { BlogPage } from "./components/BlogPage";
 import { DownloadPage } from "./components/DownloadPage";
@@ -582,8 +586,8 @@ function App() {
             <WhyExists />
             <NodeCardShowcase />
             <VisualizeStoryMap />
-            <Compare />
             <WorldBuilding theme={theme} />
+            <Compare />
             <ProjectLayers />
             <BetaPrinciples />
             <Ownership />
@@ -1039,6 +1043,7 @@ function VisualizeMiniGraph() {
 function VisualizeStoryMap() {
   const graphRef = useRef<HTMLDivElement | null>(null);
   const [activeNodeId, setActiveNodeId] = useState<string | null>(null);
+  const [hoverNodeId, setHoverNodeId] = useState<string | null>(null);
   const [nodePositions, setNodePositions] = useState<
     Record<string, { x: number; y: number }>
   >(() =>
@@ -1080,9 +1085,35 @@ function VisualizeStoryMap() {
     };
   }, [activeNodeId]);
 
+  const linkDegree = useMemo(() => {
+    const degree = new Map(visualizeGraphNodes.map((node) => [node.id, 0]));
+
+    visualizeGraphLinks.forEach(([fromId, toId]) => {
+      degree.set(fromId, (degree.get(fromId) ?? 0) + 1);
+      degree.set(toId, (degree.get(toId) ?? 0) + 1);
+    });
+
+    return degree;
+  }, []);
+  const maxLinkDegree = Math.max(1, ...Array.from(linkDegree.values()));
+
+  const interactionNodeId = activeNodeId ?? hoverNodeId;
+  const connectedNodeIds = useMemo(() => {
+    if (!interactionNodeId) return new Set<string>();
+
+    const connected = new Set<string>([interactionNodeId]);
+    visualizeGraphLinks.forEach(([fromId, toId]) => {
+      if (fromId === interactionNodeId) connected.add(toId);
+      if (toId === interactionNodeId) connected.add(fromId);
+    });
+
+    return connected;
+  }, [interactionNodeId]);
+
   const beginDrag = (nodeId: string, event: ReactPointerEvent) => {
     event.preventDefault();
     setActiveNodeId(nodeId);
+    setHoverNodeId(nodeId);
   };
 
   return (
@@ -1096,7 +1127,7 @@ function VisualizeStoryMap() {
         transition={{ duration: 0.65, delay: 0.12 }}
       >
         <div className="story-map-copy">
-          <p className="eyebrow">Visualize</p>
+          <p className="eyebrow">Visualize: Links</p>
           <h3>The story behind the manuscript.</h3>
           <p>
             Links, tags, and references become a map you can rearrange as the
@@ -1106,12 +1137,12 @@ function VisualizeStoryMap() {
         <div
           className="story-map-panel"
           ref={graphRef}
-          aria-label="Interactive Novelative links graph with draggable tag nodes"
+          aria-label="Interactive Novelative links graph with draggable link nodes"
         >
           <div className="story-map-toolbar">
-            <span>Links View</span>
-            <span>Visualize</span>
-            <span>{visualizeGraphNodes.length} tag nodes</span>
+            <span>Links</span>
+            <span>Connections</span>
+            <span>{visualizeGraphNodes.length} nodes</span>
           </div>
           <svg
             className="story-map-lines"
@@ -1122,16 +1153,20 @@ function VisualizeStoryMap() {
             {visualizeGraphLinks.map(([fromId, toId], index) => {
               const from = nodePositions[fromId];
               const to = nodePositions[toId];
+              const isHighlighted =
+                interactionNodeId === fromId || interactionNodeId === toId;
               return (
                 <motion.line
                   key={`${fromId}-${toId}`}
-                  className="story-link"
+                  className={`story-link ${
+                    isHighlighted ? "highlighted" : ""
+                  } ${interactionNodeId && !isHighlighted ? "dimmed" : ""}`}
                   x1={from.x}
                   y1={from.y}
                   x2={to.x}
                   y2={to.y}
-                  initial={{ pathLength: 0, opacity: 0 }}
-                  whileInView={{ pathLength: 1, opacity: 1 }}
+                  initial={{ pathLength: 0 }}
+                  whileInView={{ pathLength: 1 }}
                   viewport={{ once: false, amount: 0.4 }}
                   transition={{
                     duration: 0.7,
@@ -1144,11 +1179,18 @@ function VisualizeStoryMap() {
           </svg>
           {visualizeGraphNodes.map((node, index) => {
             const position = nodePositions[node.id];
+            const degree = linkDegree.get(node.id) ?? 0;
+            const normalized = degree / maxLinkDegree;
+            const nodeSize = 14 + Math.sqrt(normalized) * 18;
+            const isConnected = connectedNodeIds.has(node.id);
+            const isDimmed = interactionNodeId !== null && !isConnected;
             return (
               <motion.button
                 type="button"
                 className={`story-tag-node ${node.color} ${
                   activeNodeId === node.id ? "dragging" : ""
+                } ${isConnected ? "highlighted" : ""} ${
+                  isDimmed ? "dimmed" : ""
                 }`}
                 key={node.id}
                 style={{
@@ -1156,14 +1198,19 @@ function VisualizeStoryMap() {
                   top: `${position.y}%`,
                   x: "-50%",
                   y: "-50%",
-                }}
+                  "--node-size": `${nodeSize}px`,
+                } as CSSProperties}
                 onPointerDown={(event) => beginDrag(node.id, event)}
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
+                onPointerEnter={() => setHoverNodeId(node.id)}
+                onPointerLeave={() => setHoverNodeId(null)}
+                onFocus={() => setHoverNodeId(node.id)}
+                onBlur={() => setHoverNodeId(null)}
+                initial={{ scale: 0.8 }}
+                whileInView={{ scale: 1 }}
                 whileHover={{ scale: 1.07 }}
                 viewport={{ once: true, amount: 0.35 }}
                 transition={{ duration: 0.28, delay: index * 0.04 }}
-                aria-label={`Move ${node.label} tag node`}
+                aria-label={`Move ${node.label} link node`}
               >
                 <span>{node.label}</span>
                 <node.icon size={18} strokeWidth={2.15} />
@@ -1640,8 +1687,8 @@ function WorldBuilding({ theme }: { theme: Theme }) {
     <section id="worldbuilding" className="section visualize-tags-section">
       <div className="container">
         <SectionHeader
-          eyebrow="Visualize"
-          title="Visualize: Tags"
+          eyebrow="Visualize: Tags"
+          title="Easy sorting"
         >
           Group story files by tag on the same canvas the app uses, with
           colored clusters, inherited tag dividers, search, and layout controls
