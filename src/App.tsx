@@ -96,7 +96,7 @@ const navItems = [
 const jumpLinks = [
   { label: "Why it works", href: "#compare" },
   { label: "Workflow", href: "#workflow" },
-  { label: "World-building", href: "#worldbuilding" },
+  { label: "Visualize Tags", href: "#worldbuilding" },
   { label: "What it holds", href: "#project-layers" },
   { label: "Ownership", href: "#ownership" },
 ];
@@ -345,25 +345,6 @@ const workflowSteps = [
       },
       { text: "Contained pipeline", icon: WandSparkles, href: "/features" },
     ],
-  },
-];
-
-const worldCards = [
-  {
-    title: "Character context",
-    body: "Track relationships, traits, and scene references beside the chapters where they matter.",
-  },
-  {
-    title: "Connected places",
-    body: "Keep setting rules, travel logic, and location notes tied to the scenes they affect.",
-  },
-  {
-    title: "Traversable lore",
-    body: "Link history, systems, magic rules, and themes so background details stay findable.",
-  },
-  {
-    title: "Spatial planning",
-    body: "Move story pieces onto the canvas when relationships need more room than a folder tree.",
   },
 ];
 
@@ -1463,7 +1444,7 @@ function NodeCardShowcase() {
                         snapCursorBase.y,
                         snapCursorBase.y,
                       ],
-                      opacity: [0, 0, 1, 1, 1, 1, 0],
+                      opacity: [1],
                       scale: [0.96, 0.96, 1, 0.9, 0.9, 0.9, 0.9],
                     }}
                     transition={{
@@ -1656,40 +1637,31 @@ function Compare() {
 
 function WorldBuilding({ theme }: { theme: Theme }) {
   return (
-    <section id="worldbuilding" className="section worldbuilding-section">
-      <div
-        className="worldbuilding-bg-image"
-        style={{
-          backgroundImage: `url(/assets/worldbuilding-links-${theme}.png)`,
-        }}
-      />
+    <section id="worldbuilding" className="section visualize-tags-section">
       <div className="container">
         <SectionHeader
-          eyebrow="World-Building"
-          title="Build your story's world."
+          eyebrow="Visualize"
+          title="Visualize: Tags"
         >
-          Keep lore, research, and locations close to the draft so reference
-          material stays reachable when you need it.
+          Group story files by tag on the same canvas the app uses, with
+          colored clusters, inherited tag dividers, search, and layout controls
+          visible in one real project view.
         </SectionHeader>
 
-        <div className="world-grid">
-          <div className="world-image-space" />
-
-          <motion.div
-            className="world-right-column"
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.25 }}
-            variants={reveal}
-            transition={{ duration: 0.65 }}
-          >
-            <div className="compact-grid">
-              {worldCards.map((card) => (
-                <SmallPanel key={card.title} {...card} />
-              ))}
-            </div>
-          </motion.div>
-        </div>
+        <motion.figure
+          className="visualize-tags-showcase"
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.24 }}
+          variants={reveal}
+          transition={{ duration: 0.65 }}
+        >
+          <img
+            src={`/assets/Visualize-TagsView-${theme}.png`}
+            alt="Novelative Visualize Tags view showing tagged story groups on a canvas"
+            loading="lazy"
+          />
+        </motion.figure>
       </div>
     </section>
   );

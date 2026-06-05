@@ -1416,8 +1416,7 @@ h3 {
 }
 
 .section-split-heading,
-.beta-grid,
-.world-grid {
+.beta-grid {
     display: grid;
     gap: 2rem;
     align-items: center;
@@ -1581,119 +1580,65 @@ a.inline-icon:focus-visible {
     outline-offset: 2px;
 }
 
-.world-grid {
-    grid-template-columns: 1fr 1.15fr;
-    gap: clamp(2rem, 5vw, 4.5rem);
-    align-items: center;
-}
-
-/* WorldBuilding Section adjustments */
-.worldbuilding-section {
+.visualize-tags-section {
     position: relative;
     overflow: hidden;
     background-color: rgb(var(--color-app-bg));
     z-index: 1;
 }
 
-/* Linear gradient border-fading overlay using section::before pseudoelement */
-.worldbuilding-section::before {
+.visualize-tags-section::before {
     content: "";
     position: absolute;
     inset: 0;
-    z-index: 1;
+    z-index: 0;
     pointer-events: none;
     background:
-        linear-gradient(
-            to bottom,
-            rgb(var(--color-app-bg)) 0%,
-            transparent 15%,
-            transparent 85%,
-            rgb(var(--color-app-bg)) 100%
+        radial-gradient(
+            circle at 50% 48%,
+            rgba(var(--color-app-highlight), 0.12),
+            transparent 34rem
         ),
         linear-gradient(
-            to right,
+            180deg,
             rgb(var(--color-app-bg)) 0%,
-            transparent 10%,
-            transparent 90%,
+            rgba(var(--color-app-bg), 0.88) 48%,
             rgb(var(--color-app-bg)) 100%
         );
 }
 
-/* Left column image space - empty spacer for grid balance */
-.world-image-space {
-    height: 480px;
-}
-
-.worldbuilding-bg-image {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: -35%; /* Shifts visual center of the node graph to the left column */
-    right: -5%; /* Symmetrical overflow buffer for complete section coverage */
-    z-index: 0;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    opacity: 0.15; /* subtle in dark mode */
-    transition: background-image 0.3s ease;
-    pointer-events: none;
-
-    /* Radial fade mask centered on the shifted background container */
-    mask-image: radial-gradient(circle at center, black 30%, transparent 75%);
-    -webkit-mask-image: radial-gradient(
-        circle at center,
-        black 30%,
-        transparent 75%
-    );
-}
-
-.light-mode .worldbuilding-bg-image {
-    opacity: 0.6; /* higher opacity in light mode for the elegant light-gray graphic */
-    mix-blend-mode: multiply; /* blends white background of the screenshot with the page */
-}
-
-/* Ensure container sits above the background and is interactive */
-.worldbuilding-section .container {
+.visualize-tags-section .container {
     position: relative;
-    z-index: 2;
+    z-index: 1;
 }
 
-/* Right column styling (Centered on the right side of the grid) */
-.world-right-column {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    z-index: 2;
+.visualize-tags-showcase {
+    width: min(100%, 1280px);
+    margin: 2.9rem auto 0;
+    border: 1px solid rgba(var(--color-app-border), 0.86);
+    border-radius: 0.5rem;
+    overflow: hidden;
+    background: rgb(var(--color-app-surface));
+    box-shadow: 0 26px 80px rgba(0, 0, 0, 0.36);
 }
 
-.world-right-column .compact-grid {
-    margin-top: 0; /* Align perfectly with column header */
+.visualize-tags-showcase img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 2559 / 1438;
+    height: auto;
+    object-fit: cover;
+    object-position: center;
 }
 
-/* Transparent, border-only panels allowing the background to show through */
-.worldbuilding-section .small-panel {
-    background: transparent;
-    border: 1px solid rgba(var(--color-app-border), 0.5);
-    box-shadow: none;
-    backdrop-filter: blur(
-        4px
-    ); /* subtle glassmorphism to preserve high text readability */
-    -webkit-backdrop-filter: blur(4px);
-}
-
-.light-mode .worldbuilding-section .small-panel {
-    border-color: rgba(0, 0, 0, 0.08);
+.light-mode .visualize-tags-showcase {
+    border-color: rgba(148, 163, 184, 0.42);
+    box-shadow: 0 26px 70px rgba(15, 23, 42, 0.13);
 }
 
 @media (max-width: 1080px) {
-    .world-image-space {
-        display: none; /* hide empty spacer so cards stack immediately below centered title on mobile */
-    }
-    .worldbuilding-bg-image {
-        left: 0;
-        right: 0;
-        background-position: center; /* center globally on mobile */
-        opacity: 0.12; /* slightly more subtle on mobile */
+    .visualize-tags-showcase {
+        margin-top: 2rem;
     }
 }
 
@@ -3969,7 +3914,6 @@ a.inline-icon:focus-visible {
 
     .card-grid.three,
     .one-studio-grid,
-    .world-grid,
     .beta-grid,
     .story-map-showcase,
     .nodecard-demo-grid {
