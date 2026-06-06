@@ -2939,7 +2939,6 @@ a.inline-icon:focus-visible {
 
 .blog-status,
 .blog-empty-state,
-.blog-loading-card,
 .blog-archive-panel,
 .blog-stat-card,
 .featured-blog-card,
@@ -2988,47 +2987,6 @@ a.inline-icon:focus-visible {
     color: rgb(var(--color-app-muted));
     font-size: 1.05rem;
     line-height: 1.7;
-}
-
-.blog-loading-card {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    overflow: hidden;
-    border-radius: 1rem;
-}
-
-.blog-loading-visual {
-    min-height: 20rem;
-    background: linear-gradient(
-        135deg,
-        rgba(var(--color-app-highlight), 0.15),
-        rgb(var(--color-app-surface)),
-        rgb(var(--color-app-bg))
-    );
-}
-
-.blog-loading-copy {
-    padding: clamp(2rem, 4vw, 3rem);
-}
-
-.blog-loading-copy .skeleton-text {
-    width: 100%;
-}
-
-.blog-loading-copy .skeleton-text:nth-child(1) {
-    width: 8rem;
-}
-
-.blog-loading-copy .skeleton-text:nth-child(3) {
-    width: 80%;
-}
-
-.blog-loading-copy .skeleton-text:nth-child(5) {
-    width: 92%;
-}
-
-.blog-loading-copy .skeleton-text:nth-child(6) {
-    width: 72%;
 }
 
 .blog-overview {
@@ -4912,10 +4870,6 @@ a.inline-icon:focus-visible {
     }
 
     .download-build-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .blog-loading-card {
         grid-template-columns: 1fr;
     }
 

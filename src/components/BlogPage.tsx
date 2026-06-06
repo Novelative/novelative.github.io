@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { blogPostSources } from "../content/blogPosts";
 import { ParticleCanvas, reveal } from "./shared";
 
 interface BlogPost {
@@ -15,99 +16,46 @@ interface BlogPost {
 
 const blogAuthorName = "Moogstir";
 const blogAuthorRole = "Developer & Writer";
+const staticBlogPosts = normalizeBlogPosts(blogPostSources);
 
 export function BlogPage() {
   const shouldReduceMotion = useReducedMotion();
-  const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [selectedSlug, setSelectedSlug] = useState<string | null>(null);
+  const posts = staticBlogPosts;
+  const [selectedSlug, setSelectedSlug] = useState<string | null>(
+    posts[0]?.slug || null,
+  );
   const [status, setStatus] = useState<{
     title: string;
     body: string;
-    type: "empty" | "error" | "warning";
+    type: "warning";
   } | null>(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    let cancelled = false;
-
-    async function loadBlogPosts() {
-      setLoading(true);
+    if (!posts.length) {
       setStatus(null);
+      setSelectedSlug(null);
+      return;
+    }
 
-      try {
-        const response = await fetch("/api/posts", {
-          headers: { Accept: "application/json" },
-        });
-        const text = await response.text();
-        const payload = text ? JSON.parse(text) : null;
+    const requestedSlug = getBlogRequestedSlug();
+    const selectedPost =
+      posts.find((post) => post.slug === requestedSlug) || posts[0];
 
-        if (!response.ok) {
-          throw new Error(
-            payload?.error || "The blog API returned an unexpected response.",
-          );
-        }
-
-        const rows = Array.isArray(payload?.posts)
-          ? payload.posts
-          : Array.isArray(payload)
-            ? payload
-            : [];
-        const normalized = normalizeBlogPosts(rows);
-
-        if (cancelled) return;
-
-        if (!normalized.length) {
-          setPosts([]);
-          setSelectedSlug(null);
-          setStatus({
-            title: "No posts found yet",
-            body: "Add a row to your Supabase posts table and it will appear here automatically.",
-            type: "empty",
-          });
-          return;
-        }
-
-        const requestedSlug = getBlogRequestedSlug();
-        const selectedPost =
-          normalized.find((post) => post.slug === requestedSlug) ||
-          normalized[0];
-
-        setPosts(normalized);
-        setSelectedSlug(selectedPost.slug);
-
-        if (requestedSlug && requestedSlug !== selectedPost.slug) {
-          setStatus({
+    setSelectedSlug(selectedPost.slug);
+    setStatus(
+      requestedSlug && requestedSlug !== selectedPost.slug
+        ? {
             title: "That post was not found.",
             body: "Showing the latest post instead.",
             type: "warning",
-          });
-          syncBlogUrl(selectedPost.slug, "replace", false);
-        }
-      } catch (error) {
-        if (cancelled) return;
-        setPosts([]);
-        setSelectedSlug(null);
-        setStatus({
-          title: "Blog connection issue",
-          body:
-            error instanceof Error
-              ? error.message
-              : "The site could not load posts from the blog API right now.",
-          type: "error",
-        });
-      } finally {
-        if (!cancelled) {
-          setLoading(false);
-        }
-      }
+          }
+        : null,
+    );
+
+    if (requestedSlug && requestedSlug !== selectedPost.slug) {
+      syncBlogUrl(selectedPost.slug, "replace", false);
     }
-
-    loadBlogPosts();
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+  }, [posts]);
 
   useEffect(() => {
     if (!posts.length || !selectedSlug) return;
@@ -146,6 +94,13 @@ export function BlogPage() {
   const otherPosts = featuredPost
     ? posts.filter((post) => post.slug !== featuredPost.slug)
     : [];
+  const emptyStatus = !posts.length
+    ? {
+        title: "No posts found yet",
+        body: "Add a Markdown file to src/content/blog/posts and redeploy the site to publish it.",
+        type: "empty" as const,
+      }
+    : null;
 
   const selectPost = (slug: string, scrollToArticle = false) => {
     const post = posts.find((item) => item.slug === slug);
@@ -181,23 +136,21 @@ export function BlogPage() {
           </p>
         </motion.div>
 
-        {status && status.type === "warning" && (
+        {status && (
           <div className="blog-status warning">
             <strong>{status.title}</strong> {status.body}
           </div>
         )}
 
-        {loading && <BlogLoadingCard />}
-
-        {!loading && status && status.type !== "warning" && (
-          <section className={`blog-empty-state ${status.type}`}>
+        {emptyStatus && (
+          <section className={`blog-empty-state ${emptyStatus.type}`}>
             <p className="eyebrow">Blog Status</p>
-            <h2>{status.title}</h2>
-            <p>{status.body}</p>
+            <h2>{emptyStatus.title}</h2>
+            <p>{emptyStatus.body}</p>
           </section>
         )}
 
-        {!loading && featuredPost && selectedPost && (
+        {featuredPost && selectedPost && (
           <>
             <BlogOverview
               posts={posts}
@@ -224,22 +177,6 @@ export function BlogPage() {
   );
 }
 
-function BlogLoadingCard() {
-  return (
-    <section className="blog-loading-card">
-      <div className="blog-loading-visual" />
-      <div className="blog-loading-copy">
-        <div className="skeleton-text w-32 mb-4" />
-        <div className="skeleton-text w-full mb-3" />
-        <div className="skeleton-text w-4/5 mb-8" />
-        <div className="skeleton-text w-full mb-3" />
-        <div className="skeleton-text w-11/12 mb-3" />
-        <div className="skeleton-text w-3/4" />
-      </div>
-    </section>
-  );
-}
-
 function BlogOverview({
   posts,
   selectedPost,
@@ -255,8 +192,8 @@ function BlogOverview({
         <p className="eyebrow">Blog Archive</p>
         <h2>Browse every post without leaving the page</h2>
         <p>
-          New entries load from the live blog feed, and the archive below lets
-          readers jump between articles instantly.
+          New entries are bundled from local Markdown files, and the archive
+          below lets readers jump between articles instantly.
         </p>
         <div className="blog-jump-list">
           {posts.map((post) => (
@@ -449,14 +386,19 @@ function normalizeBlogPost(
 }
 
 function parseBlogDate(value: unknown) {
-  const parsed =
-    typeof value === "string" || typeof value === "number"
-      ? new Date(value)
-      : new Date();
-  return Number.isNaN(parsed.getTime()) ? new Date() : parsed;
+  if (typeof value !== "string" && typeof value !== "number") {
+    return null;
+  }
+
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
 }
 
-function formatBlogDate(date: Date) {
+function formatBlogDate(date: Date | null) {
+  if (!date) {
+    return "Undated";
+  }
+
   return new Intl.DateTimeFormat("en-US", {
     year: "numeric",
     month: "long",
