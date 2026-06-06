@@ -989,14 +989,26 @@ h3 {
     bottom: calc(100% + 0.12rem);
     width: max-content;
     max-width: 10.5rem;
-    transform: translateX(-50%);
     color: rgba(var(--color-app-text), 0.9);
     font-size: 0.68rem;
     font-weight: 600;
     line-height: 1.15;
     text-align: center;
     text-wrap: balance;
+    opacity: 0;
     pointer-events: none;
+    transform: translateX(-50%) translateY(0.18rem);
+    transition:
+        opacity 150ms ease,
+        transform 150ms ease;
+}
+
+.story-tag-node.label-visible span,
+.story-tag-node:hover span,
+.story-tag-node:focus-visible span,
+.story-tag-node.dragging span {
+    opacity: 1;
+    transform: translateX(-50%);
 }
 
 .story-tag-node.highlighted::before {

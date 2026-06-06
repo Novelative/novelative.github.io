@@ -437,44 +437,54 @@ const visualizeGraphLinks = [
   ["theshatteredsun", "vanntheexile"],
   ["theshatteredsun", "kineticresonance"],
   ["theshatteredsun", "thespireofdawn"],
-  ["theshatteredsun", "highinquisitormalakor"],
-  ["theshatteredsun", "thefirstcovenant"],
-  ["theshatteredsun", "thesilentorder"],
   ["theshatteredsun", "theedgeofthemap"],
-  ["theshatteredsun", "reignitingthehearth"],
   ["theshatteredsun", "thestareatermyth"],
   ["theshatteredsun", "noahsechoinheritance"],
-  ["theshatteredsun", "actone"],
+  ["theshatteredsun", "memoryvault"],
+  ["theshatteredsun", "eclipsecalendar"],
+  ["theshatteredsun", "glassharbor"],
+  ["theshatteredsun", "thecinderroute"],
+  ["theshatteredsun", "dustarchive"],
   ["vanntheexile", "thecinderroute"],
   ["vanntheexile", "glassharbor"],
-  ["kineticresonance", "bonemarrow"],
-  ["kineticresonance", "powergrammar"],
-  ["thespireofdawn", "essencemarket"],
+  ["vanntheexile", "noahsechoinheritance"],
+  ["kineticresonance", "thespireofdawn"],
   ["thespireofdawn", "dustarchive"],
-  ["highinquisitormalakor", "thefirstcovenant"],
-  ["thefirstcovenant", "thesilentorder"],
-  ["thesilentorder", "dustarchive"],
-  ["theedgeofthemap", "chapterechoes"],
-  ["reignitingthehearth", "bonemarrow"],
+  ["theedgeofthemap", "noahsechoinheritance"],
   ["thestareatermyth", "memoryvault"],
-  ["noahsechoinheritance", "actone"],
-  ["noahsechoinheritance", "acttwo"],
+  ["thestareatermyth", "eclipsecalendar"],
+  ["memoryvault", "eclipsecalendar"],
   ["actone", "acttwo"],
+  ["actone", "actthree"],
+  ["actone", "roughstoryline"],
+  ["actone", "villaintohero"],
+  ["actone", "chapterechoes"],
+  ["actone", "redgate"],
+  ["actone", "bonemarrow"],
+  ["actone", "reignitingthehearth"],
   ["acttwo", "actthree"],
   ["actthree", "chapterechoes"],
-  ["essencemarket", "powergrammar"],
-  ["rusekingdom", "sakarkingdom"],
-  ["rusekingdom", "stormatlas"],
-  ["sakarkingdom", "lostsyntax"],
-  ["sakarkingdom", "manifestednames"],
   ["roughstoryline", "villaintohero"],
   ["villaintohero", "redgate"],
-  ["quietphysics", "powergrammar"],
-  ["quietphysics", "dustarchive"],
+  ["redgate", "bonemarrow"],
+  ["reignitingthehearth", "bonemarrow"],
+  ["sakarkingdom", "highinquisitormalakor"],
+  ["sakarkingdom", "thefirstcovenant"],
+  ["sakarkingdom", "thesilentorder"],
+  ["sakarkingdom", "rusekingdom"],
+  ["sakarkingdom", "stormatlas"],
+  ["sakarkingdom", "lostsyntax"],
+  ["sakarkingdom", "manifestednames"],
+  ["highinquisitormalakor", "thefirstcovenant"],
+  ["thefirstcovenant", "thesilentorder"],
+  ["thefirstcovenant", "manifestednames"],
+  ["rusekingdom", "stormatlas"],
   ["manifestednames", "lostsyntax"],
-  ["glassharbor", "thecinderroute"],
-  ["memoryvault", "eclipsecalendar"],
-  ["eclipsecalendar", "thestareatermyth"],
+  ["essencemarket", "powergrammar"],
+  ["essencemarket", "manifestednames"],
+  ["essencemarket", "quietphysics"],
+  ["essencemarket", "dustarchive"],
+  ["quietphysics", "powergrammar"],
 ] as const;
 
 const studioConnections = [
@@ -1316,7 +1326,7 @@ function VisualizeStoryMap() {
         visualizeGraphNodes.map((node) => {
           const degree = linkDegree.get(node.id) ?? 0;
           const normalized = degree / maxLinkDegree;
-          return [node.id, 14 + Math.sqrt(normalized) * 18];
+          return [node.id, 8 + Math.pow(normalized, 1.18) * 38];
         }),
       ) as Record<string, number>,
     [linkDegree, maxLinkDegree],
@@ -1372,16 +1382,16 @@ function VisualizeStoryMap() {
             const nx = dx / dist;
             const ny = dy / dist;
             const minDist =
-              5.4 +
+              6.2 +
               ((nodeVisualSizes[a.id] ?? 18) + (nodeVisualSizes[b.id] ?? 18)) *
-                0.16;
-            const repulsion = 1.45 / Math.max(distSq, 2.5);
+                0.2;
+            const repulsion = 2.15 / Math.max(distSq, 2.2);
 
             applyForce(a.id, -nx * repulsion, -ny * repulsion, velocities);
             applyForce(b.id, nx * repulsion, ny * repulsion, velocities);
 
             if (dist < minDist) {
-              const overlap = (minDist - dist) * 0.035;
+              const overlap = (minDist - dist) * 0.052;
               applyForce(a.id, -nx * overlap, -ny * overlap, velocities);
               applyForce(b.id, nx * overlap, ny * overlap, velocities);
             }
@@ -1397,10 +1407,10 @@ function VisualizeStoryMap() {
           const dy = to.y - from.y;
           const dist = Math.max(Math.sqrt(dx * dx + dy * dy), 0.01);
           const desired =
-            13 +
+            8.5 +
             ((nodeVisualSizes[fromId] ?? 18) + (nodeVisualSizes[toId] ?? 18)) *
-              0.06;
-          const force = (dist - desired) * 0.006;
+              0.075;
+          const force = (dist - desired) * 0.018;
 
           applyForce(fromId, (dx / dist) * force, (dy / dist) * force, velocities);
           applyForce(toId, -(dx / dist) * force, -(dy / dist) * force, velocities);
@@ -1413,17 +1423,17 @@ function VisualizeStoryMap() {
           const velocity = velocities[node.id];
 
           if (node.id !== activeNodeId) {
-            velocity.vx += (50 - position.x) * 0.0008;
-            velocity.vy += (52 - position.y) * 0.0008;
-            velocity.vx *= 0.84;
-            velocity.vy *= 0.84;
+            velocity.vx += (50 - position.x) * 0.00065;
+            velocity.vy += (52 - position.y) * 0.00065;
+            velocity.vx *= 0.8;
+            velocity.vy *= 0.8;
 
             const speed = Math.sqrt(
               velocity.vx * velocity.vx + velocity.vy * velocity.vy,
             );
 
-            if (speed > 0.42) {
-              const limit = 0.42 / speed;
+            if (speed > 0.58) {
+              const limit = 0.58 / speed;
               velocity.vx *= limit;
               velocity.vy *= limit;
             }
@@ -1536,9 +1546,11 @@ function VisualizeStoryMap() {
           </svg>
           {visualizeGraphNodes.map((node, index) => {
             const position = nodePositions[node.id];
+            const degree = linkDegree.get(node.id) ?? 0;
             const nodeSize = nodeVisualSizes[node.id] ?? 14;
             const isConnected = connectedNodeIds.has(node.id);
             const isDimmed = interactionNodeId !== null && !isConnected;
+            const showsLabel = degree >= 6;
             return (
               <motion.button
                 type="button"
@@ -1546,6 +1558,7 @@ function VisualizeStoryMap() {
                   activeNodeId === node.id ? "dragging" : ""
                 } ${isConnected ? "highlighted" : ""} ${
                   isDimmed ? "dimmed" : ""
+                } ${showsLabel ? "label-visible" : ""}
                 }`}
                 key={node.id}
                 style={{
