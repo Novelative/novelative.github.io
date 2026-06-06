@@ -275,19 +275,10 @@ export function PurchasePage() {
             <div className="purchase-download-panel-header">
               <Download size={28} />
               <div>
-                <h3>Buy, then install Novelative</h3>
-                <p>Purchase once, then choose your Windows or macOS installer.</p>
+                <h3>Download Novelative</h3>
+                <p>Choose your Windows or macOS installer after checkout.</p>
               </div>
             </div>
-
-            <a
-              className="lemonsqueezy-button purchase-download-buy"
-              href={purchaseUrl}
-              onClick={trackPurchaseClick}
-            >
-              Buy Lifetime for $25
-              <ArrowRight size={18} />
-            </a>
 
             <div className="purchase-download-builds">
               {downloadBuilds.map((build) => (

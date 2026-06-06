@@ -11,6 +11,9 @@
     --color-app-text: 220 220 220;
     --color-app-muted: 169 169 169;
     --color-app-border: 68 68 68;
+    --purchase-accent: 251, 188, 4;
+    --purchase-accent-bright: 255, 215, 0;
+    --purchase-accent-sheen: 255, 245, 190;
     font-family: Inter, system-ui, sans-serif;
     background: rgb(var(--color-app-bg));
     color: rgb(var(--color-app-text));
@@ -35,6 +38,9 @@ html.light-mode {
     --color-app-text: 17 24 39;
     --color-app-muted: 75 85 99;
     --color-app-border: 229 231 235;
+    --purchase-accent: 59, 130, 246;
+    --purchase-accent-bright: 96, 165, 250;
+    --purchase-accent-sheen: 191, 219, 254;
 }
 
 * {
@@ -3445,21 +3451,21 @@ a.inline-icon:focus-visible {
     position: relative;
     isolation: isolate;
     overflow: hidden;
-    border-color: rgba(251, 188, 4, 0.44);
+    border-color: rgba(var(--purchase-accent), 0.58);
     padding: clamp(2rem, 4vw, 3rem);
     background:
         linear-gradient(
             135deg,
             rgba(255, 255, 255, 0.08),
             rgba(255, 255, 255, 0.025) 42%,
-            rgba(251, 188, 4, 0.06)
+            rgba(var(--purchase-accent), 0.06)
         ),
         rgba(var(--color-app-bg), 0.88);
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
     box-shadow:
         0 24px 70px rgba(0, 0, 0, 0.18),
-        0 0 38px rgba(251, 188, 4, 0.18),
+        0 0 52px rgba(var(--purchase-accent), 0.3),
         inset 0 1px 0 rgba(255, 255, 255, 0.08);
     transition: transform 220ms ease;
 }
@@ -3470,16 +3476,16 @@ a.inline-icon:focus-visible {
     inset: 0;
     z-index: 0;
     border-radius: inherit;
-    padding: 1px;
+    padding: 2px;
     background:
         conic-gradient(
             from var(--purchase-border-angle, 0deg),
-            rgba(251, 188, 4, 0.14),
+            rgba(var(--purchase-accent), 0.22),
             rgba(255, 255, 255, 0.74),
-            rgba(255, 215, 0, 0.95),
-            rgba(251, 188, 4, 0.22),
-            rgba(255, 245, 190, 0.82),
-            rgba(251, 188, 4, 0.14)
+            rgba(var(--purchase-accent-bright), 0.95),
+            rgba(var(--purchase-accent), 0.34),
+            rgba(var(--purchase-accent-sheen), 0.82),
+            rgba(var(--purchase-accent), 0.22)
         );
     mask:
         linear-gradient(#000 0 0) content-box,
@@ -3501,10 +3507,10 @@ a.inline-icon:focus-visible {
     background:
         radial-gradient(
             circle at 50% 0,
-            rgba(255, 215, 0, 0.18),
-            transparent 36%
+            rgba(var(--purchase-accent-bright), 0.28),
+            transparent 40%
         );
-    opacity: 0.72;
+    opacity: 0.82;
     pointer-events: none;
     animation: purchase-gold-glow 5.5s ease-in-out infinite alternate;
 }
@@ -3526,12 +3532,12 @@ a.inline-icon:focus-visible {
 
 @keyframes purchase-gold-glow {
     from {
-        opacity: 0.46;
+        opacity: 0.56;
         transform: translate3d(-1%, -1%, 0) scale(0.98);
     }
 
     to {
-        opacity: 0.84;
+        opacity: 0.96;
         transform: translate3d(1%, 1%, 0) scale(1.02);
     }
 }
@@ -3551,10 +3557,10 @@ a.inline-icon:focus-visible {
     display: inline-flex;
     align-items: center;
     min-height: 1.7rem;
-    border: 1px solid rgba(251, 188, 4, 0.36);
+    border: 1px solid rgba(var(--purchase-accent), 0.36);
     border-radius: 0.35rem;
     padding: 0.32rem 0.7rem;
-    background: rgba(251, 188, 4, 0.14);
+    background: rgba(var(--purchase-accent), 0.14);
     color: rgb(var(--color-app-highlight));
     font-size: 0.82rem;
     font-weight: 900;
@@ -3716,7 +3722,7 @@ a.inline-icon:focus-visible {
     background: rgb(var(--color-app-highlightHover));
     transform: translateY(-2px);
     box-shadow:
-        0 24px 56px rgba(251, 188, 4, 0.34),
+        0 24px 56px rgba(var(--purchase-accent), 0.34),
         0 0 0 1px rgba(255, 255, 255, 0.18) inset;
 }
 
@@ -3795,7 +3801,7 @@ a.inline-icon:focus-visible {
     background:
         linear-gradient(
             135deg,
-            rgba(251, 188, 4, 0.08),
+            rgba(var(--purchase-accent), 0.08),
             transparent 38%
         ),
         rgb(var(--color-app-bg));
@@ -3845,7 +3851,7 @@ a.inline-icon:focus-visible {
 }
 
 .purchase-download-panel {
-    border: 1px solid rgba(251, 188, 4, 0.34);
+    border: 1px solid rgba(var(--purchase-accent), 0.34);
     border-radius: 0.85rem;
     padding: clamp(1.5rem, 3vw, 2rem);
     background:
@@ -3856,7 +3862,7 @@ a.inline-icon:focus-visible {
         );
     box-shadow:
         0 24px 70px rgba(0, 0, 0, 0.16),
-        0 0 34px rgba(251, 188, 4, 0.1);
+        0 0 34px rgba(var(--purchase-accent), 0.1);
 }
 
 .purchase-download-panel-header {
@@ -3880,31 +3886,6 @@ a.inline-icon:focus-visible {
     margin: 0;
     color: rgb(var(--color-app-muted));
     line-height: 1.5;
-}
-
-.purchase-download-buy {
-    width: 100%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.55rem;
-    margin-bottom: 0.9rem;
-    border-radius: 0.7rem;
-    padding: 0.9rem 1rem;
-    background: rgb(var(--color-app-highlight));
-    color: rgb(var(--color-app-bg));
-    font-weight: 900;
-    box-shadow: 0 16px 38px rgba(251, 188, 4, 0.24);
-    transition:
-        background 180ms ease,
-        transform 180ms ease,
-        box-shadow 180ms ease;
-}
-
-.purchase-download-buy:hover {
-    background: rgb(var(--color-app-highlightHover));
-    box-shadow: 0 20px 46px rgba(251, 188, 4, 0.3);
-    transform: translateY(-2px);
 }
 
 .purchase-download-builds {
@@ -3932,9 +3913,9 @@ a.inline-icon:focus-visible {
 }
 
 .purchase-download-builds a:hover {
-    border-color: rgba(251, 188, 4, 0.74);
-    background: rgba(251, 188, 4, 0.08);
-    box-shadow: 0 16px 36px rgba(251, 188, 4, 0.12);
+    border-color: rgba(var(--purchase-accent), 0.74);
+    background: rgba(var(--purchase-accent), 0.08);
+    box-shadow: 0 16px 36px rgba(var(--purchase-accent), 0.12);
     transform: translateY(-2px);
 }
 

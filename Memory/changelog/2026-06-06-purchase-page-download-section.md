@@ -5,12 +5,12 @@
 
 ## Summary
 
-The purchase page now includes a compact purchase/download section after the pricing cards. It gives buyers a second purchase CTA, direct Windows/macOS installer links, the purchase-to-activation flow, and links to install, license, and release-note support.
+The purchase page now includes a compact purchase/download section after the pricing cards. It gives buyers direct Windows/macOS installer links, the purchase-to-activation flow, and links to install, license, and release-note support.
 
 ## Files Modified
 
 - `src/components/PurchasePage.tsx` - Imported shared download build data and added the purchase/download handoff section.
-- `src/styles.css` - Added purchase download section layout, purchase CTA styling, installer button styling, support links, and responsive collapse rules.
+- `src/styles.css` - Added purchase download section layout, installer button styling, support links, and responsive collapse rules.
 - `Memory/changelog/2026-06-06-purchase-page-download-section.md` - Documented this feature addition.
 
 ## Why
