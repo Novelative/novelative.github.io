@@ -255,6 +255,182 @@ const visualizeGraphNodes = [
     icon: Sparkles,
     color: "indigo",
   },
+  {
+    id: "noahsechoinheritance",
+    label: "Noah's Echo Inheritance",
+    x: 51,
+    y: 30,
+    icon: Crown,
+    color: "amber",
+  },
+  {
+    id: "essencemarket",
+    label: "Essence Market",
+    x: 75,
+    y: 28,
+    icon: Wallet,
+    color: "orange",
+  },
+  {
+    id: "rusekingdom",
+    label: "Ruse Kingdom",
+    x: 72,
+    y: 70,
+    icon: Shield,
+    color: "emerald",
+  },
+  {
+    id: "sakarkingdom",
+    label: "Sakar Kingdom",
+    x: 86,
+    y: 72,
+    icon: Castle,
+    color: "red",
+  },
+  {
+    id: "bonemarrow",
+    label: "Bone & Marrow",
+    x: 18,
+    y: 62,
+    icon: FileKey,
+    color: "slate",
+  },
+  {
+    id: "actone",
+    label: "Act I",
+    x: 38,
+    y: 67,
+    icon: BookOpen,
+    color: "emerald",
+  },
+  {
+    id: "acttwo",
+    label: "Act II",
+    x: 53,
+    y: 78,
+    icon: BookOpen,
+    color: "cyan",
+  },
+  {
+    id: "actthree",
+    label: "Act III",
+    x: 68,
+    y: 84,
+    icon: BookOpen,
+    color: "purple",
+  },
+  {
+    id: "powergrammar",
+    label: "Power Grammar",
+    x: 80,
+    y: 15,
+    icon: Braces,
+    color: "blue",
+  },
+  {
+    id: "manifestednames",
+    label: "Manifested Names",
+    x: 91,
+    y: 22,
+    icon: Tags,
+    color: "indigo",
+  },
+  {
+    id: "thecinderroute",
+    label: "The Cinder Route",
+    x: 12,
+    y: 30,
+    icon: MapPin,
+    color: "orange",
+  },
+  {
+    id: "glassharbor",
+    label: "Glass Harbor",
+    x: 18,
+    y: 18,
+    icon: Compass,
+    color: "cyan",
+  },
+  {
+    id: "roughstoryline",
+    label: "Rough Story Line",
+    x: 28,
+    y: 84,
+    icon: NotebookTabs,
+    color: "slate",
+  },
+  {
+    id: "villaintohero",
+    label: "Villain to Hero",
+    x: 13,
+    y: 90,
+    icon: UserRound,
+    color: "purple",
+  },
+  {
+    id: "dustarchive",
+    label: "Dust Archive",
+    x: 58,
+    y: 13,
+    icon: HardDrive,
+    color: "slate",
+  },
+  {
+    id: "stormatlas",
+    label: "Storm Atlas",
+    x: 94,
+    y: 84,
+    icon: Image,
+    color: "blue",
+  },
+  {
+    id: "chapterechoes",
+    label: "Chapter Echoes",
+    x: 49,
+    y: 91,
+    icon: Link,
+    color: "cyan",
+  },
+  {
+    id: "redgate",
+    label: "Red Gate",
+    x: 7,
+    y: 52,
+    icon: Sword,
+    color: "red",
+  },
+  {
+    id: "quietphysics",
+    label: "Quiet Physics",
+    x: 63,
+    y: 20,
+    icon: SlidersHorizontal,
+    color: "emerald",
+  },
+  {
+    id: "eclipsecalendar",
+    label: "Eclipse Calendar",
+    x: 34,
+    y: 10,
+    icon: Moon,
+    color: "purple",
+  },
+  {
+    id: "lostsyntax",
+    label: "Lost Syntax",
+    x: 83,
+    y: 90,
+    icon: SpellCheck,
+    color: "amber",
+  },
+  {
+    id: "memoryvault",
+    label: "Memory Vault",
+    x: 5,
+    y: 12,
+    icon: Box,
+    color: "slate",
+  },
 ];
 
 const visualizeGraphLinks = [
@@ -267,6 +443,38 @@ const visualizeGraphLinks = [
   ["theshatteredsun", "theedgeofthemap"],
   ["theshatteredsun", "reignitingthehearth"],
   ["theshatteredsun", "thestareatermyth"],
+  ["theshatteredsun", "noahsechoinheritance"],
+  ["theshatteredsun", "actone"],
+  ["vanntheexile", "thecinderroute"],
+  ["vanntheexile", "glassharbor"],
+  ["kineticresonance", "bonemarrow"],
+  ["kineticresonance", "powergrammar"],
+  ["thespireofdawn", "essencemarket"],
+  ["thespireofdawn", "dustarchive"],
+  ["highinquisitormalakor", "thefirstcovenant"],
+  ["thefirstcovenant", "thesilentorder"],
+  ["thesilentorder", "dustarchive"],
+  ["theedgeofthemap", "chapterechoes"],
+  ["reignitingthehearth", "bonemarrow"],
+  ["thestareatermyth", "memoryvault"],
+  ["noahsechoinheritance", "actone"],
+  ["noahsechoinheritance", "acttwo"],
+  ["actone", "acttwo"],
+  ["acttwo", "actthree"],
+  ["actthree", "chapterechoes"],
+  ["essencemarket", "powergrammar"],
+  ["rusekingdom", "sakarkingdom"],
+  ["rusekingdom", "stormatlas"],
+  ["sakarkingdom", "lostsyntax"],
+  ["sakarkingdom", "manifestednames"],
+  ["roughstoryline", "villaintohero"],
+  ["villaintohero", "redgate"],
+  ["quietphysics", "powergrammar"],
+  ["quietphysics", "dustarchive"],
+  ["manifestednames", "lostsyntax"],
+  ["glassharbor", "thecinderroute"],
+  ["memoryvault", "eclipsecalendar"],
+  ["eclipsecalendar", "thestareatermyth"],
 ] as const;
 
 const studioConnections = [
@@ -1051,6 +1259,11 @@ function VisualizeStoryMap() {
       visualizeGraphNodes.map((node) => [node.id, { x: node.x, y: node.y }]),
     ),
   );
+  const nodeVelocityRef = useRef<Record<string, { vx: number; vy: number }>>(
+    Object.fromEntries(
+      visualizeGraphNodes.map((node) => [node.id, { vx: 0, vy: 0 }]),
+    ),
+  );
 
   useEffect(() => {
     if (!activeNodeId) return;
@@ -1062,6 +1275,7 @@ function VisualizeStoryMap() {
       const rect = graph.getBoundingClientRect();
       const x = ((event.clientX - rect.left) / rect.width) * 100;
       const y = ((event.clientY - rect.top) / rect.height) * 100;
+      nodeVelocityRef.current[activeNodeId] = { vx: 0, vy: 0 };
 
       setNodePositions((current) => ({
         ...current,
@@ -1096,6 +1310,157 @@ function VisualizeStoryMap() {
     return degree;
   }, []);
   const maxLinkDegree = Math.max(1, ...Array.from(linkDegree.values()));
+  const nodeVisualSizes = useMemo(
+    () =>
+      Object.fromEntries(
+        visualizeGraphNodes.map((node) => {
+          const degree = linkDegree.get(node.id) ?? 0;
+          const normalized = degree / maxLinkDegree;
+          return [node.id, 14 + Math.sqrt(normalized) * 18];
+        }),
+      ) as Record<string, number>,
+    [linkDegree, maxLinkDegree],
+  );
+
+  useEffect(() => {
+    let frameId = 0;
+
+    const applyForce = (
+      nodeId: string,
+      fx: number,
+      fy: number,
+      velocities: Record<string, { vx: number; vy: number }>,
+    ) => {
+      if (nodeId === activeNodeId) return;
+      const velocity = velocities[nodeId] ?? { vx: 0, vy: 0 };
+      velocity.vx += fx;
+      velocity.vy += fy;
+      velocities[nodeId] = velocity;
+    };
+
+    const tick = () => {
+      setNodePositions((current) => {
+        const velocities = nodeVelocityRef.current;
+        const next = Object.fromEntries(
+          visualizeGraphNodes.map((node) => {
+            const position = current[node.id] ?? { x: node.x, y: node.y };
+            return [node.id, { x: position.x, y: position.y }];
+          }),
+        ) as Record<string, { x: number; y: number }>;
+
+        visualizeGraphNodes.forEach((node) => {
+          if (!velocities[node.id]) velocities[node.id] = { vx: 0, vy: 0 };
+        });
+
+        for (let i = 0; i < visualizeGraphNodes.length; i += 1) {
+          const a = visualizeGraphNodes[i];
+          for (let j = i + 1; j < visualizeGraphNodes.length; j += 1) {
+            const b = visualizeGraphNodes[j];
+            const aPos = next[a.id];
+            const bPos = next[b.id];
+            let dx = bPos.x - aPos.x;
+            let dy = bPos.y - aPos.y;
+            let distSq = dx * dx + dy * dy;
+
+            if (distSq < 0.01) {
+              dx = 0.4;
+              dy = 0.4;
+              distSq = dx * dx + dy * dy;
+            }
+
+            const dist = Math.sqrt(distSq);
+            const nx = dx / dist;
+            const ny = dy / dist;
+            const minDist =
+              5.4 +
+              ((nodeVisualSizes[a.id] ?? 18) + (nodeVisualSizes[b.id] ?? 18)) *
+                0.16;
+            const repulsion = 1.45 / Math.max(distSq, 2.5);
+
+            applyForce(a.id, -nx * repulsion, -ny * repulsion, velocities);
+            applyForce(b.id, nx * repulsion, ny * repulsion, velocities);
+
+            if (dist < minDist) {
+              const overlap = (minDist - dist) * 0.035;
+              applyForce(a.id, -nx * overlap, -ny * overlap, velocities);
+              applyForce(b.id, nx * overlap, ny * overlap, velocities);
+            }
+          }
+        }
+
+        visualizeGraphLinks.forEach(([fromId, toId]) => {
+          const from = next[fromId];
+          const to = next[toId];
+          if (!from || !to) return;
+
+          const dx = to.x - from.x;
+          const dy = to.y - from.y;
+          const dist = Math.max(Math.sqrt(dx * dx + dy * dy), 0.01);
+          const desired =
+            13 +
+            ((nodeVisualSizes[fromId] ?? 18) + (nodeVisualSizes[toId] ?? 18)) *
+              0.06;
+          const force = (dist - desired) * 0.006;
+
+          applyForce(fromId, (dx / dist) * force, (dy / dist) * force, velocities);
+          applyForce(toId, -(dx / dist) * force, -(dy / dist) * force, velocities);
+        });
+
+        let changed = false;
+
+        visualizeGraphNodes.forEach((node) => {
+          const position = next[node.id];
+          const velocity = velocities[node.id];
+
+          if (node.id !== activeNodeId) {
+            velocity.vx += (50 - position.x) * 0.0008;
+            velocity.vy += (52 - position.y) * 0.0008;
+            velocity.vx *= 0.84;
+            velocity.vy *= 0.84;
+
+            const speed = Math.sqrt(
+              velocity.vx * velocity.vx + velocity.vy * velocity.vy,
+            );
+
+            if (speed > 0.42) {
+              const limit = 0.42 / speed;
+              velocity.vx *= limit;
+              velocity.vy *= limit;
+            }
+
+            position.x += velocity.vx;
+            position.y += velocity.vy;
+
+            if (position.x < 4 || position.x > 96) {
+              position.x = Math.min(96, Math.max(4, position.x));
+              velocity.vx *= -0.3;
+            }
+
+            if (position.y < 8 || position.y > 92) {
+              position.y = Math.min(92, Math.max(8, position.y));
+              velocity.vy *= -0.3;
+            }
+          }
+
+          const currentPosition = current[node.id];
+          if (
+            !currentPosition ||
+            Math.abs(currentPosition.x - position.x) > 0.01 ||
+            Math.abs(currentPosition.y - position.y) > 0.01
+          ) {
+            changed = true;
+          }
+        });
+
+        return changed ? next : current;
+      });
+
+      frameId = window.requestAnimationFrame(tick);
+    };
+
+    frameId = window.requestAnimationFrame(tick);
+    return () => window.cancelAnimationFrame(frameId);
+  }, [activeNodeId, nodeVisualSizes]);
 
   const interactionNodeId = activeNodeId ?? hoverNodeId;
   const connectedNodeIds = useMemo(() => {
@@ -1150,13 +1515,13 @@ function VisualizeStoryMap() {
             preserveAspectRatio="none"
             aria-hidden="true"
           >
-            {visualizeGraphLinks.map(([fromId, toId], index) => {
+            {visualizeGraphLinks.map(([fromId, toId]) => {
               const from = nodePositions[fromId];
               const to = nodePositions[toId];
               const isHighlighted =
                 interactionNodeId === fromId || interactionNodeId === toId;
               return (
-                <motion.line
+                <line
                   key={`${fromId}-${toId}`}
                   className={`story-link ${
                     isHighlighted ? "highlighted" : ""
@@ -1165,23 +1530,13 @@ function VisualizeStoryMap() {
                   y1={from.y}
                   x2={to.x}
                   y2={to.y}
-                  initial={{ pathLength: 0 }}
-                  whileInView={{ pathLength: 1 }}
-                  viewport={{ once: false, amount: 0.4 }}
-                  transition={{
-                    duration: 0.7,
-                    delay: index * 0.05,
-                    ease: "easeInOut",
-                  }}
                 />
               );
             })}
           </svg>
           {visualizeGraphNodes.map((node, index) => {
             const position = nodePositions[node.id];
-            const degree = linkDegree.get(node.id) ?? 0;
-            const normalized = degree / maxLinkDegree;
-            const nodeSize = 14 + Math.sqrt(normalized) * 18;
+            const nodeSize = nodeVisualSizes[node.id] ?? 14;
             const isConnected = connectedNodeIds.has(node.id);
             const isDimmed = interactionNodeId !== null && !isConnected;
             return (

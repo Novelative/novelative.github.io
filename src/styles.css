@@ -869,8 +869,8 @@ h3 {
 
 .story-map-panel {
     position: relative;
-    width: min(100%, 820px);
-    height: clamp(390px, 55vw, 520px);
+    width: min(100%, 980px);
+    height: clamp(460px, 62vw, 640px);
     margin-inline: auto;
     overflow: hidden;
     border: 0;
