@@ -98,7 +98,7 @@ export function DownloadPage({ theme }: { theme: Theme }) {
               <p>
                 This download page now matches the current public beta release
                 on GitHub for both platforms. Install first, explore the full
-                workspace for 30 days, and purchase only if Novelative fits your
+                workspace for 30 days of use, and purchase only if Novelative fits your
                 process.
               </p>
               <div className="download-build-grid">
@@ -174,7 +174,7 @@ export function DownloadPage({ theme }: { theme: Theme }) {
               <p className="eyebrow">Next Step</p>
               <h2>Install the beta, then decide after real writing time.</h2>
               <p>
-                Start with the free 30-day trial, draft and plot inside one
+                Start with the free 30-days-of-use trial, draft and plot inside one
                 project, then move to the purchase page only when you want to
                 keep the app beyond the trial.
               </p>

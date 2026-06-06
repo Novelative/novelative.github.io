@@ -26,7 +26,7 @@ const releaseLinks = [
 
 const releaseFacts = [
   { label: "Status", value: "Beta" },
-  { label: "Trial", value: "30 days free" },
+  { label: "Trial", value: "30 days of use free" },
   { label: "Pricing Model", value: "One-time purchase" },
   { label: "Platforms", value: "Windows + macOS" },
 ];

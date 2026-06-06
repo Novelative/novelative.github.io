@@ -6,6 +6,7 @@ import type {
 } from "react";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 import { BlogPage } from "./components/BlogPage";
+import { CookieConsent } from "./components/CookieConsent";
 import { DownloadPage } from "./components/DownloadPage";
 import { downloadBuilds } from "./components/downloadLinks";
 import { PurchasePage } from "./components/PurchasePage";
@@ -27,6 +28,8 @@ import {
   Box,
   Braces,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   Columns3,
   Compass,
   Crown,
@@ -73,6 +76,7 @@ type Theme = "light" | "dark";
 type NodecardSide = "top" | "bottom" | "left" | "right";
 type SitePage =
   | "home"
+  | "features"
   | "download"
   | "purchase"
   | "blog"
@@ -104,6 +108,158 @@ const jumpLinks = [
   { label: "What it holds", href: "#project-layers" },
   { label: "Ownership", href: "#ownership" },
 ];
+
+const featureSections = [
+  {
+    id: "projects",
+    navLabel: "#projects",
+    title: "Projects",
+    notes: [
+      "Contains the full workflow: file tree, writing views, canvas, visualize, compile, and backups.",
+      "Useful for keeping separate books, series, and worlds cleanly separated.",
+    ],
+    media: [{
+      dark: "/assets/feature-screenshots/projects-dark.png",
+      light: "/assets/feature-screenshots/projects-light.png",
+      alt: "Novelative project manager interface",
+    }],
+  },
+  {
+    id: "wikilinks",
+    navLabel: "#wikilinks",
+    title: "Wiki-Links",
+    notes: [
+      "Connects manuscript text to worldbuilding pages.",
+      "Helps create the relationships shown in link-based visualization.",
+    ],
+    media: [{
+      dark: "/assets/feature-screenshots/wikilinks-dark.png",
+      light: "/assets/feature-screenshots/wikilinks-light.png",
+      alt: "Novelative worldbuilding document with linked references",
+    }],
+  },
+  {
+    id: "canvas",
+    navLabel: "#canvas",
+    title: "Infinite Canvas",
+    notes: [
+      "A spatial workspace for loose scenes, references, timelines, and structural notes.",
+      "Useful before ideas are ready to become chapters.",
+    ],
+    media: [{
+      dark: "/assets/feature-screenshots/canvas-dark.png",
+      light: "/assets/feature-screenshots/canvas-light.png",
+      alt: "Novelative canvas view with connected story cards",
+    }],
+  },
+  {
+    id: "tags",
+    navLabel: "#tags",
+    title: "Intelligent Tagging",
+    notes: [
+      "Connects from the file tree to the visualize view.",
+      "Helps organize what appears during compile.",
+      "Useful for tracking themes, arcs, characters, locations, or draft status.",
+    ],
+    media: [{
+      dark: "/assets/feature-screenshots/tags-dark.png",
+      light: "/assets/feature-screenshots/tags-light.png",
+      alt: "Novelative tag view showing project items grouped by tags",
+    }],
+  },
+  {
+    id: "graph-view",
+    navLabel: "#graph-view",
+    title: "Dynamic Graph View",
+    notes: [
+      "Turns links and tags into a project map.",
+      "Useful for spotting clusters, dependencies, and neglected story areas.",
+    ],
+    media: [{
+      dark: "/assets/feature-screenshots/graph-view-dark.png",
+      light: "/assets/feature-screenshots/graph-view-light.png",
+      alt: "Novelative graph view showing story relationships",
+    }],
+  },
+  {
+    id: "comments",
+    navLabel: "#comments",
+    title: "Word Comment Links",
+    notes: [
+      "Attaches revision context to exact prose.",
+      "Useful for line questions, continuity reminders, and future edits.",
+    ],
+    media: [{
+      dark: "/assets/feature-screenshots/comments-dark.png",
+      light: "/assets/feature-screenshots/comments-light.png",
+      alt: "Novelative word comment links in the editor",
+    }],
+  },
+  {
+    id: "split-view",
+    navLabel: "#split-view",
+    title: "Split View",
+    notes: [
+      "Shows a draft beside supporting material.",
+      "Useful for outlines, character sheets, research, and worldbuilding notes.",
+    ],
+    media: [{
+      dark: "/assets/feature-screenshots/split-view-dark.png",
+      light: "/assets/feature-screenshots/split-view-light.png",
+      alt: "Novelative split view writing interface",
+    }],
+  },
+  {
+    id: "compile-export",
+    navLabel: "#compile-export",
+    title: "Compile & Export",
+    notes: [
+      "Uses project structure and tags to control what gets included.",
+      "Exports to DOCX, PDF, EPUB, TXT, Markdown, and HTML.",
+    ],
+    media: [
+      {
+        dark: "/assets/feature-screenshots/compile-export-dark.png",
+        light: "/assets/feature-screenshots/compile-export-light.png",
+        alt: "Novelative compile settings panel",
+      },
+      {
+        dark: "/assets/feature-screenshots/compile-export-2-dark.png",
+        light: "/assets/feature-screenshots/compile-export-2-light.png",
+        alt: "Novelative compile export format settings",
+      },
+    ],
+  },
+  {
+    id: "themes",
+    navLabel: "#themes",
+    title: "Custom Themes",
+    notes: [
+      "Changes the writing environment itself.",
+      "Useful for long sessions, visual comfort, and different lighting setups.",
+    ],
+    media: [{
+      dark: "/assets/feature-screenshots/themes-dark.png",
+      light: "/assets/feature-screenshots/themes-light.png",
+      alt: "Novelative custom theme controls",
+    }],
+  },
+  {
+    id: "backups",
+    navLabel: "#backups",
+    title: "Backups & Storage",
+    notes: [
+      "Supports the local-first model.",
+      "Keeps project files and snapshots on your device.",
+      "Useful for managing your own backups directly.",
+    ],
+    media: [{
+      dark: "/assets/feature-screenshots/backups-dark.png",
+      light: "/assets/feature-screenshots/backups-light.png",
+      alt: "Novelative storage settings panel",
+    }],
+  },
+] as const;
 
 const coreViews = [
   {
@@ -666,7 +822,7 @@ const faqs = [
   {
     question: "Is there a free trial?",
     answer:
-      "Yes. The beta is free to use for 30 days, with no sign-up required before installing.",
+      "Yes. The beta is free to use for 30 days of use, with no sign-up required before installing.",
   },
   {
     question: "Is it a subscription?",
@@ -703,6 +859,7 @@ function getCurrentPage(): SitePage {
   const path = window.location.pathname.replace(/\/+$/, "") || "/";
 
   if (path === "/" || path === "/index.html") return "home";
+  if (path === "/features" || path === "/features.html") return "features";
   if (path === "/download" || path === "/download.html") return "download";
   if (path === "/purchase" || path === "/purchase.html") return "purchase";
   if (path === "/blog" || path === "/blog.html") return "blog";
@@ -739,29 +896,32 @@ function getCurrentPage(): SitePage {
 function App() {
   const [theme, setTheme] = useStoredTheme();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [cookieSettingsOpen, setCookieSettingsOpen] = useState(false);
   const page: SitePage = getCurrentPage();
 
   useEffect(() => {
     document.title =
       page === "download"
         ? "Download | Novelative"
-        : page === "purchase"
-          ? "Purchase | Novelative"
-          : page === "blog"
-            ? "Blog | Novelative"
-            : page === "support"
-              ? "Support | Novelative"
-              : page === "releaseNotes"
-                ? "Release Notes | Novelative"
-                : page === "downloadHelp"
-                  ? "Download Help | Novelative"
-                  : page === "licenseHelp"
-                    ? "License Status | Novelative"
-                    : page === "privacy"
-                      ? "Privacy Policy | Novelative"
-                      : page === "terms"
-                        ? "Terms & EULA | Novelative"
-                        : "Novelative | The Writers Studio";
+        : page === "features"
+          ? "Features | Novelative"
+          : page === "purchase"
+            ? "Purchase | Novelative"
+            : page === "blog"
+              ? "Blog | Novelative"
+              : page === "support"
+                ? "Support | Novelative"
+                : page === "releaseNotes"
+                  ? "Release Notes | Novelative"
+                  : page === "downloadHelp"
+                    ? "Download Help | Novelative"
+                    : page === "licenseHelp"
+                      ? "License Status | Novelative"
+                      : page === "privacy"
+                        ? "Privacy Policy | Novelative"
+                        : page === "terms"
+                          ? "Terms & EULA | Novelative"
+                          : "Novelative | The Writers Studio";
   }, [page]);
 
   const toggleTheme = () => {
@@ -780,6 +940,8 @@ function App() {
       <main>
         {page === "download" ? (
           <DownloadPage theme={theme} />
+        ) : page === "features" ? (
+          <FeaturesPage theme={theme} />
         ) : page === "purchase" ? (
           <PurchasePage />
         ) : page === "blog" ? (
@@ -815,8 +977,15 @@ function App() {
           </>
         )}
       </main>
-      <Footer theme={theme} />
+      <Footer
+        theme={theme}
+        onOpenCookieSettings={() => setCookieSettingsOpen(true)}
+      />
       <FloatingActions onToggleTheme={toggleTheme} theme={theme} />
+      <CookieConsent
+        settingsOpen={cookieSettingsOpen}
+        onSettingsClosed={() => setCookieSettingsOpen(false)}
+      />
     </div>
   );
 }
@@ -923,6 +1092,7 @@ function Header({
 function isActiveNavItem(href: string, currentPage: SitePage) {
   return (
     (currentPage === "home" && href === "/") ||
+    (currentPage === "features" && href === "/features") ||
     (currentPage === "download" && href === "/download") ||
     (currentPage === "purchase" && href === "/purchase") ||
     (currentPage === "blog" && href === "/blog") ||
@@ -1004,6 +1174,182 @@ function JumpNav() {
         </div>
       </div>
     </section>
+  );
+}
+
+function FeaturesPage({ theme }: { theme: Theme }) {
+  const shouldReduceMotion = useReducedMotion();
+  const [fullscreenImage, setFullscreenImage] = useState<{
+    src: string;
+    alt: string;
+  } | null>(null);
+  const [carouselIndexes, setCarouselIndexes] = useState<
+    Record<string, number>
+  >({});
+
+  useEffect(() => {
+    if (!fullscreenImage) return;
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setFullscreenImage(null);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [fullscreenImage]);
+
+  const setCarouselIndex = (
+    featureId: string,
+    mediaCount: number,
+    nextIndex: number,
+  ) => {
+    setCarouselIndexes((current) => ({
+      ...current,
+      [featureId]: (nextIndex + mediaCount) % mediaCount,
+    }));
+  };
+
+  return (
+    <>
+      <section className="features-page-hero">
+        {!shouldReduceMotion && <ParticleCanvas />}
+        <div className="support-gradient" />
+        <div className="features-page-hero-copy">
+          <p className="eyebrow">Features</p>
+          <h1>The Novelative workspace.</h1>
+        </div>
+        <nav className="features-index" aria-label="Feature shortcuts">
+          {featureSections.map((feature) => (
+            <a key={feature.id} href={`#${feature.id}`}>
+              <span>{feature.navLabel}</span>
+              <small>{feature.title}</small>
+            </a>
+          ))}
+        </nav>
+      </section>
+
+      <div className="features-scroll-list">
+        {featureSections.map((feature) => {
+          const activeMediaIndex = carouselIndexes[feature.id] ?? 0;
+          const activeMedia = feature.media[activeMediaIndex] ?? feature.media[0];
+          const mediaSrc =
+            theme === "light" ? activeMedia.light : activeMedia.dark;
+          const hasCarousel = feature.media.length > 1;
+
+          return (
+            <motion.section
+              id={feature.id}
+              className="feature-detail-section"
+              key={feature.id}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.22 }}
+              variants={reveal}
+              transition={{ duration: 0.65, ease: "easeOut" }}
+            >
+              <div className="feature-detail-copy">
+                <h2>{feature.title}</h2>
+                <ul className="feature-detail-notes">
+                  {feature.notes.map((note) => (
+                    <li key={note}>{note}</li>
+                  ))}
+                </ul>
+              </div>
+              <figure className="feature-detail-media">
+                <button
+                  type="button"
+                  className="feature-image-button"
+                  onClick={() =>
+                    setFullscreenImage({
+                      src: mediaSrc,
+                      alt: activeMedia.alt,
+                    })
+                  }
+                  aria-label={`View ${feature.title} screenshot fullscreen`}
+                >
+                  <img src={mediaSrc} alt={activeMedia.alt} loading="lazy" />
+                </button>
+                {hasCarousel && (
+                  <div
+                    className="feature-carousel-controls"
+                    aria-label={`${feature.title} screenshots`}
+                  >
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setCarouselIndex(
+                          feature.id,
+                          feature.media.length,
+                          activeMediaIndex - 1,
+                        )
+                      }
+                      aria-label="Previous compile screenshot"
+                    >
+                      <ChevronLeft size={19} />
+                    </button>
+                    <span>
+                      {activeMediaIndex + 1} / {feature.media.length}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setCarouselIndex(
+                          feature.id,
+                          feature.media.length,
+                          activeMediaIndex + 1,
+                        )
+                      }
+                      aria-label="Next compile screenshot"
+                    >
+                      <ChevronRight size={19} />
+                    </button>
+                  </div>
+                )}
+              </figure>
+            </motion.section>
+          );
+        })}
+      </div>
+
+      {fullscreenImage && (
+        <div
+          className="feature-lightbox"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Fullscreen feature screenshot"
+          onClick={() => setFullscreenImage(null)}
+        >
+          <button
+            type="button"
+            className="feature-lightbox-close"
+            onClick={(event) => {
+              event.stopPropagation();
+              setFullscreenImage(null);
+            }}
+            aria-label="Close fullscreen image"
+          >
+            <X size={30} />
+          </button>
+          <div
+            className="feature-lightbox-image-frame"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <img src={fullscreenImage.src} alt={fullscreenImage.alt} />
+          </div>
+        </div>
+      )}
+
+      <DownloadCta />
+    </>
   );
 }
 
@@ -1503,7 +1849,7 @@ function VisualizeStoryMap() {
       >
         <div className="story-map-copy">
           <p className="eyebrow">Visualize: Links</p>
-          <h3>The story behind the manuscript.</h3>
+          <h3>Sorting by wikilinks.</h3>
           <p>
             Links, tags, and references become a map you can rearrange as the
             world grows.
@@ -2056,7 +2402,7 @@ function WorldBuilding({ theme }: { theme: Theme }) {
       <div className="container">
         <SectionHeader
           eyebrow="Visualize: Tags"
-          title="Easy sorting"
+          title="Sorting by tags."
         >
           Group story files by tag on the same canvas the app uses, with
           colored clusters, inherited tag dividers, search, and layout controls
@@ -2294,7 +2640,13 @@ function DownloadCta() {
   );
 }
 
-function Footer({ theme }: { theme: Theme }) {
+function Footer({
+  theme,
+  onOpenCookieSettings,
+}: {
+  theme: Theme;
+  onOpenCookieSettings: () => void;
+}) {
   const footerLogo =
     theme === "light"
       ? "/assets/lightmodeicon.png"
@@ -2315,7 +2667,7 @@ function Footer({ theme }: { theme: Theme }) {
             </p>
             <div className="footer-proof">
               <span>Windows + macOS</span>
-              <span>30 days free</span>
+              <span>30 days of use free</span>
               <span>One-time purchase</span>
             </div>
           </div>
@@ -2323,7 +2675,7 @@ function Footer({ theme }: { theme: Theme }) {
           <nav className="footer-column" aria-label="Explore">
             <h2>Explore</h2>
             <a href="/download">Download</a>
-            <a href="/#features">Features</a>
+            <a href="/features">Features</a>
             <a href="/purchase">Purchase</a>
             <a href="/blog">Blog</a>
             <a href="/release-notes">Release Notes</a>
@@ -2335,6 +2687,9 @@ function Footer({ theme }: { theme: Theme }) {
             <a href="/download-help">Download Help</a>
             <a href="/license-help">License Help</a>
             <a href="/privacy">Privacy Policy</a>
+            <button type="button" onClick={onOpenCookieSettings}>
+              Your Privacy Choices
+            </button>
             <a href="/terms">Terms / EULA</a>
           </nav>
 

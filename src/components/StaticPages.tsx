@@ -30,7 +30,7 @@ const downloadHelpSections: StaticPageSection[] = [
   },
   {
     title: "Trial & Licensing",
-    body: "The beta includes a 30-day free trial with no sign-up required. Trial expiration does not delete local project files. Purchased license keys are delivered by email and can be reused on up to three personal devices. If you need activation help, use the license help page or contact support.",
+    body: "The beta includes a 30-days-of-use free trial with no sign-up required. Trial expiration does not delete local project files. Purchased license keys are delivered by email and can be reused on up to three personal devices. If you need activation help, use the license help page or contact support.",
   },
   {
     title: "Common Issues",
@@ -53,7 +53,8 @@ const privacySections: StaticPageSection[] = [
     items: [
       "License validation: Our server verifies your license key and a hardware identifier to manage device limits.",
       "Crash reports: If enabled, anonymous crash details may be sent to help diagnose issues. These reports do not include manuscript text.",
-      "Website analytics: The website may use privacy-friendly analytics to count visits and downloads without tracking you across the web.",
+      "Website analytics: With your consent, the website uses Google Analytics to understand traffic, pages viewed, and download activity.",
+      "Advertising measurement: With your consent, the website may use Reddit Pixel and Lemon Squeezy affiliate tracking to measure ad performance, referrals, and purchases.",
     ],
   },
   {
@@ -61,11 +62,19 @@ const privacySections: StaticPageSection[] = [
     body: "Payments are processed by Stripe and Lemon Squeezy. We do not store or have access to your credit card number.",
   },
   {
-    title: "5. Updates",
+    title: "5. Cookies and Tracking Choices",
+    body: "Optional analytics, advertising, and affiliate tracking are off until you accept them in the website's privacy choices. You can reject optional tracking, choose categories, or change your choice later from the Your Privacy Choices link in the footer. If your browser sends Global Privacy Control, we treat it as an opt-out of marketing and cross-context advertising tracking.",
+  },
+  {
+    title: "6. Third-Party Services",
+    body: "Google, Reddit, Stripe, Lemon Squeezy, EmailJS, and related service providers may process limited website, payment, support, or delivery data according to their own policies and our configuration of those services. We do not sell manuscript, note, or project content.",
+  },
+  {
+    title: "7. Updates",
     body: "The app may check Novelative servers for new versions. This check sends the current version number and does not send personal writing data.",
   },
   {
-    title: "6. Contact Us",
+    title: "8. Contact Us",
     body: "If you have any questions about this Privacy Policy, contact us at support@novelative.com.",
   },
 ];
@@ -77,7 +86,7 @@ const termsSections: StaticPageSection[] = [
   },
   {
     title: "2. Trial Use",
-    body: "The beta can be used free for 30 days without sign-up. When the trial ends, the app may require a paid license for continued use, but your locally stored project files remain on your device.",
+    body: "The beta can be used free for 30 days of use without sign-up. When the trial ends, the app may require a paid license for continued use, but your locally stored project files remain on your device.",
   },
   {
     title: "3. Ownership",
@@ -118,7 +127,7 @@ export function PrivacyPage() {
       eyebrow="Privacy"
       title="Privacy Policy"
       description="Your stories belong to you."
-      lastUpdated="December 2025"
+      lastUpdated="June 2026"
       sections={privacySections}
     />
   );

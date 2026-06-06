@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import {
+  ArrowRight,
   BadgeInfo,
   BadgePercent,
   ChevronDown,
@@ -14,27 +15,34 @@ import {
   ParticleCanvas,
   reveal,
 } from "./shared";
+import { downloadBuilds } from "./downloadLinks";
 
 const purchaseUrl =
   "https://novelative.lemonsqueezy.com/checkout/buy/58b937de-134c-4bdb-ab55-90896c503fa2?embed=1&media=0&desc=0";
 
 const purchaseBenefits = [
   {
-    title: "One-Time Payment:",
-    body: "Pay once after the trial. No recurring billing.",
+    title: "Pay once",
+    body: "No monthly renewal or subscription billing.",
   },
   {
-    title: "Lifetime Access:",
+    title: "Lifetime access",
     body: "Keep using the licensed app indefinitely.",
   },
   {
-    title: "Future Updates Included:",
-    body: "Major versions and feature updates remain included under the current model.",
+    title: "Updates included",
+    body: "Future app updates remain included under the current model.",
   },
   {
-    title: "Three Personal Devices:",
-    body: "Install on up to three personal computers if that matches your workflow.",
+    title: "Three devices",
+    body: "Install on up to three personal computers.",
   },
+];
+
+const purchaseDownloadSteps = [
+  "Buy once or use your trial",
+  "Download the Windows or macOS installer",
+  "Paste the emailed license key when prompted",
 ];
 
 const purchaseFaqs = [
@@ -126,17 +134,24 @@ export function PurchasePage() {
         <div className="container purchase-pricing-grid">
           <MotionCard className="purchase-card purchase-plan-card">
             <div className="purchase-plan-header">
-              <span className="purchase-badge">Beta Pricing</span>
+              <div className="purchase-plan-kicker">
+                <span className="purchase-badge">Beta Pricing</span>
+                <span className="purchase-plan-pill">Lifetime license</span>
+              </div>
               <h2>Novelative Lifetime</h2>
               <p>
-                A one-time purchase after the free trial. No subscription
-                lock-in.
+                Own the full desktop app after your free trial. No subscription
+                lock-in or monthly renewal.
               </p>
               <div className="purchase-price">
-                <span>$50.00</span>
+                <span>Beta lifetime price</span>
                 <strong>
                   $25<small>.00</small>
                 </strong>
+                <div className="purchase-price-note">
+                  <span>Normally $50</span>
+                  <span>Pay once</span>
+                </div>
               </div>
             </div>
 
@@ -145,11 +160,23 @@ export function PurchasePage() {
                 <li key={item.title}>
                   <CircleCheck size={22} />
                   <span>
-                    <strong>{item.title}</strong> {item.body}
+                    <strong>{item.title}</strong>
+                    {item.body}
                   </span>
                 </li>
               ))}
             </ul>
+
+            <div className="purchase-trust-strip" aria-label="Purchase details">
+              <span>
+                <CircleCheck size={16} />
+                30-day trial first
+              </span>
+              <span>
+                <CircleCheck size={16} />
+                License key by email
+              </span>
+            </div>
 
             <a
               id="purchase-btn-tracking"
@@ -158,8 +185,12 @@ export function PurchasePage() {
               onClick={trackPurchaseClick}
             >
               <CreditCard size={22} />
-              Buy Novelative Lifetime
+              Buy Lifetime for $25
+              <ArrowRight size={20} />
             </a>
+            <p className="purchase-cta-note">
+              One-time payment. Your project files stay local.
+            </p>
           </MotionCard>
 
           <div className="purchase-side-grid">
@@ -184,7 +215,7 @@ export function PurchasePage() {
               <h3>Before you pay</h3>
               <div className="purchase-before-list">
                 <p>
-                  <strong>30-day free trial:</strong> Install first and test the
+                  <strong>30-days-of-use free trial:</strong> Install first and test the
                   real workflow before purchasing.
                 </p>
                 <p>
@@ -211,6 +242,71 @@ export function PurchasePage() {
               </div>
             </MotionCard>
           </div>
+        </div>
+      </section>
+
+      <section className="purchase-download-section">
+        <div className="container purchase-download-grid">
+          <motion.div
+            className="purchase-download-copy"
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.3 }}
+            variants={reveal}
+            transition={{ duration: 0.65 }}
+          >
+            <p className="eyebrow">Purchase + Download</p>
+            <h2>Checkout should not slow down your install.</h2>
+            <p>
+              After purchase, keep moving: download the current beta, open the
+              app, and use the license key delivered to your email.
+            </p>
+            <ol className="purchase-download-steps">
+              {purchaseDownloadSteps.map((step) => (
+                <li key={step}>
+                  <CircleCheck size={18} />
+                  {step}
+                </li>
+              ))}
+            </ol>
+          </motion.div>
+
+          <MotionCard className="purchase-download-panel" delay={0.08}>
+            <div className="purchase-download-panel-header">
+              <Download size={28} />
+              <div>
+                <h3>Buy, then install Novelative</h3>
+                <p>Purchase once, then choose your Windows or macOS installer.</p>
+              </div>
+            </div>
+
+            <a
+              className="lemonsqueezy-button purchase-download-buy"
+              href={purchaseUrl}
+              onClick={trackPurchaseClick}
+            >
+              Buy Lifetime for $25
+              <ArrowRight size={18} />
+            </a>
+
+            <div className="purchase-download-builds">
+              {downloadBuilds.map((build) => (
+                <a href={build.href} key={build.platform}>
+                  <span>
+                    <strong>{build.platform}</strong>
+                    <small>{build.file}</small>
+                  </span>
+                  <build.icon size={24} />
+                </a>
+              ))}
+            </div>
+
+            <div className="purchase-download-links">
+              <a href="/download-help">Install help</a>
+              <a href="/license-help">License help</a>
+              <a href="/release-notes">Release notes</a>
+            </div>
+          </MotionCard>
         </div>
       </section>
 
