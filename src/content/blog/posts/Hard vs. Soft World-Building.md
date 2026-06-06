@@ -10,7 +10,7 @@ The mistake a lot of writers make is assuming only **hard magic systems** need o
 
 ---
 
-## Hard Magic Needs Rules You Can Audit
+## Hard Magic Needs Rules You Can Audit.
 
 A hard magic system usually depends on clarity. What can the magic do? What can’t it do? Who can access it? What does it cost physically, politically, spiritually, or economically? What breaks if someone pushes it too far?
 
