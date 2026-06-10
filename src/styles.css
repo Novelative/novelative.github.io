@@ -433,6 +433,144 @@ video {
     transform: translateY(-1px);
 }
 
+.story-shift-section {
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid rgba(var(--color-app-border), 0.68);
+    background:
+        linear-gradient(
+            180deg,
+            rgba(var(--color-app-surface), 0.7),
+            rgba(var(--color-app-bg), 0.98)
+        );
+}
+
+.story-shift-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(var(--color-app-highlight), 0.12),
+            transparent
+        );
+    opacity: 0.42;
+}
+
+.story-shift-copy {
+    position: relative;
+    display: grid;
+    gap: 0;
+    max-width: 1040px;
+}
+
+.story-shift-line {
+    display: flex;
+    align-items: center;
+    max-width: 980px;
+    min-height: clamp(32rem, 72vh, 48rem);
+    margin: 0;
+    font-family: Inter, system-ui, sans-serif;
+    font-size: clamp(1.85rem, 3.5vw, 3.1rem);
+    font-weight: 850;
+    line-height: 1.28;
+    letter-spacing: 0;
+}
+
+.story-shift-line:nth-child(2) {
+    max-width: 940px;
+}
+
+.story-shift-line:nth-child(3) {
+    max-width: 1020px;
+}
+
+.story-shift-line-text {
+    position: relative;
+    display: block;
+    isolation: isolate;
+}
+
+.story-shift-line-base,
+.story-shift-line-sweep {
+    display: block;
+}
+
+.story-shift-line-base {
+    position: relative;
+    z-index: 2;
+    color: rgba(var(--color-app-text), 0.9);
+    -webkit-text-stroke: 0.5px rgba(var(--color-app-highlight), 0.24);
+}
+
+.story-shift-feature-list {
+    --story-shift-feature-muted: rgb(132 132 132);
+
+    position: relative;
+    z-index: 2;
+    display: block;
+    max-width: 760px;
+    margin-top: 0.82rem;
+    color: var(--story-shift-feature-muted);
+    font-size: clamp(0.66rem, 0.68vw, 0.82rem);
+    font-weight: 650;
+    line-height: 1.55;
+    -webkit-text-stroke: 0;
+}
+
+html.light-mode .story-shift-feature-list {
+    --story-shift-feature-muted: rgb(98 107 122);
+}
+
+.story-shift-feature-item {
+    color: var(--story-shift-feature-muted);
+    animation: story-shift-feature-pulse 6s ease-in-out infinite;
+    animation-delay: calc(var(--feature-index) * 0.8s);
+}
+
+.story-shift-feature-item + .story-shift-feature-item::before {
+    content: "•";
+    display: inline-block;
+    margin: 0 0.55rem;
+    color: var(--story-shift-feature-muted);
+    opacity: 0.58;
+}
+
+@keyframes story-shift-feature-pulse {
+    0%,
+    18%,
+    100% {
+        color: var(--story-shift-feature-muted);
+        text-shadow: none;
+    }
+
+    9% {
+        color: rgb(var(--color-app-highlight));
+        text-shadow: 0 0 18px rgba(var(--color-app-highlight), 0.28);
+    }
+}
+
+.story-shift-line-sweep {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    color: rgb(var(--color-app-highlight));
+    opacity: 0;
+    filter: blur(3px);
+    -webkit-text-stroke: 2px rgba(var(--color-app-highlight), 1);
+    text-shadow:
+        0 0 18px rgba(var(--color-app-highlight), 0.9),
+        0 0 48px rgba(var(--color-app-highlight), 0.8),
+        0 0 86px rgba(var(--color-app-highlight), 0.7);
+    clip-path: polygon(-24% 0, -8% 0, -8% 100%, -24% 100%);
+    pointer-events: none;
+    transform: translateZ(0);
+    will-change: clip-path, opacity, filter;
+}
+
 .section {
     padding: clamp(5rem, 8vw, 7rem) 0;
 }
@@ -1711,6 +1849,83 @@ a.inline-icon:focus-visible {
     .visualize-tags-showcase {
         margin-top: 2rem;
     }
+}
+
+.writers-section {
+    border-top: 1px solid rgba(var(--color-app-border), 0.78);
+    background:
+        linear-gradient(
+            180deg,
+            rgba(var(--color-app-highlight), 0.06),
+            transparent 24rem
+        ),
+        rgb(var(--color-app-bg));
+}
+
+.writers-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.14fr);
+    gap: clamp(2rem, 6vw, 5rem);
+    align-items: start;
+}
+
+.writers-copy {
+    position: sticky;
+    top: 6rem;
+    max-width: 34rem;
+}
+
+.writers-copy h2 {
+    margin-bottom: 1rem;
+    font-size: clamp(2.45rem, 5vw, 4.35rem);
+}
+
+.writers-copy p:not(.eyebrow) {
+    color: rgb(var(--color-app-muted));
+    font-size: 1.08rem;
+    line-height: 1.75;
+}
+
+.writer-point-list {
+    display: grid;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.writer-point {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 1.05rem;
+    align-items: start;
+    border-top: 1px solid rgba(var(--color-app-border), 0.86);
+    padding: 1.25rem 0;
+}
+
+.writer-point:last-child {
+    border-bottom: 1px solid rgba(var(--color-app-border), 0.86);
+}
+
+.writer-point-marker {
+    width: 2.55rem;
+    min-width: 2.55rem;
+    height: 2.55rem;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(var(--color-app-highlight), 0.34);
+    border-radius: 0.72rem;
+    background: rgba(var(--color-app-highlight), 0.08);
+    color: rgb(var(--color-app-highlight));
+    font-size: 0.78rem;
+    font-weight: 900;
+}
+
+.writer-point p {
+    margin: 0;
+    color: rgba(var(--color-app-text), 0.88);
+    font-size: clamp(1rem, 1.45vw, 1.16rem);
+    line-height: 1.7;
 }
 
 .compact-grid {
@@ -4706,12 +4921,22 @@ a.inline-icon:focus-visible {
         gap: 1rem;
     }
 
+    .story-shift-line {
+        font-size: 2.85rem;
+    }
+
     .card-grid.three,
     .one-studio-grid,
+    .writers-grid,
     .beta-grid,
     .story-map-showcase,
     .nodecard-demo-grid {
         grid-template-columns: 1fr;
+    }
+
+    .writers-copy {
+        position: static;
+        max-width: 680px;
     }
 
     .workflow-layout {
@@ -4809,6 +5034,10 @@ a.inline-icon:focus-visible {
 
     .hero-product {
         margin-top: 3.5rem;
+    }
+
+    .story-shift-line {
+        font-size: 2.35rem;
     }
 
     .typing-frame {
@@ -4931,6 +5160,12 @@ a.inline-icon:focus-visible {
         padding-top: 3rem;
     }
 
+    .story-shift-line {
+        min-height: clamp(24rem, 62vh, 34rem);
+        font-size: 1.65rem;
+        line-height: 1.34;
+    }
+
     .hero-actions,
     .final-actions {
         align-items: stretch;
@@ -4963,6 +5198,12 @@ a.inline-icon:focus-visible {
         align-items: flex-start;
         flex-direction: column;
         gap: 0.45rem;
+    }
+
+    .writer-point {
+        grid-template-columns: 1fr;
+        gap: 0.65rem;
+        padding: 1.1rem 0;
     }
 
     .workflow-rail::before {

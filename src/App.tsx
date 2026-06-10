@@ -778,6 +778,14 @@ const principles = [
   },
 ];
 
+const writerPoints = [
+  "User feedback shapes the roadmap. We focus feature updates on the workflows writers actually ask for, then keep listening as those workflows change.",
+  "Novelative is built to feel clear from the first project, with writing, notes, planning, and export kept in one usable workspace.",
+  "Novelative began because too many writers are stuck wrestling with messy tools instead of building the story in front of them.",
+  "Long-form fiction needs room for drafts, worldbuilding, structure, and revision without forcing the book into someone else's system.",
+  "Your manuscript should stay yours: private, local-first, and ready to move or back up on your terms.",
+];
+
 const trustCards = [
   {
     title: "Local-first storage",
@@ -961,14 +969,16 @@ function App() {
         ) : (
           <>
             <Hero theme={theme} />
-            <JumpNav />
-            <CoreViews />
+            <StoryShiftSection />
+            {/* <JumpNav /> */}
+            {/* <CoreViews /> */}
             <WhyExists />
             <NodeCardShowcase />
             <VisualizeStoryMap />
             <WorldBuilding theme={theme} />
             <Compare />
             <ProjectLayers />
+            <WritersSection />
             <BetaPrinciples />
             <Ownership />
             <Faq />
@@ -1172,6 +1182,100 @@ function JumpNav() {
             </a>
           ))}
         </div>
+      </div>
+    </section>
+  );
+}
+
+function StoryShiftSection() {
+  const shouldReduceMotion = useReducedMotion();
+  const storyShiftLines: Array<{ text: string; featureItems?: string[] }> = [
+    {
+      text: "Todays novel writing tools don't cut it. It’s time for something groundbreaking.",
+    },
+    {
+      text: "Authors easily lose track of complex story details over time. We fix that.",
+    },
+    {
+      text: "Our tools give authors a true bird’s-eye view of their story.",
+      featureItems: [
+        "Visualize view",
+        "infinite Canvas's",
+        "visualize-able wiki-links",
+        "cross-linkable editor notes",
+        "and so much more.",
+      ],
+    },
+  ];
+  const lineMotion = shouldReduceMotion
+    ? undefined
+    : {
+        hidden: { opacity: 0.28, y: 34, filter: "blur(8px)" },
+        show: { opacity: 1, y: 0, filter: "blur(0px)" },
+      };
+  const textSweepMotion = shouldReduceMotion
+    ? undefined
+    : {
+        hidden: {
+          clipPath: "polygon(-24% 0, -8% 0, -8% 100%, -24% 100%)",
+          opacity: 0,
+        },
+        show: {
+          clipPath: [
+            "polygon(-24% 0, -8% 0, -8% 100%, -24% 100%)",
+            "polygon(40% 0, 64% 0, 64% 100%, 40% 100%)",
+            "polygon(108% 0, 124% 0, 124% 100%, 108% 100%)",
+          ],
+          opacity: [0, 1, 0],
+        },
+      };
+
+  return (
+    <section className="section story-shift-section">
+      <div className="container story-shift-copy">
+        {storyShiftLines.map((line) => (
+          <motion.p
+            className="story-shift-line"
+            key={line.text}
+            initial={shouldReduceMotion ? false : "hidden"}
+            whileInView={shouldReduceMotion ? undefined : "show"}
+            viewport={{ once: true, amount: 0.5, margin: "0px 0px -45% 0px" }}
+            variants={lineMotion}
+            transition={{ duration: 0.74, ease: "easeOut" }}
+          >
+            <span className="story-shift-line-text">
+              <span className="story-shift-line-base">{line.text}</span>
+              {!shouldReduceMotion && (
+                <motion.span
+                  aria-hidden="true"
+                  className="story-shift-line-sweep"
+                  variants={textSweepMotion}
+                  transition={{
+                    duration: 3.52,
+                    delay: 0.16,
+                    ease: "easeInOut",
+                    times: [0, 0.5, 1],
+                  }}
+                >
+                  {line.text}
+                </motion.span>
+              )}
+              {line.featureItems && (
+                <span className="story-shift-feature-list">
+                  {line.featureItems.map((feature, index) => (
+                    <span
+                      className="story-shift-feature-item"
+                      key={feature}
+                      style={{ "--feature-index": index } as CSSProperties}
+                    >
+                      {feature}
+                    </span>
+                  ))}
+                </span>
+              )}
+            </span>
+          </motion.p>
+        ))}
       </div>
     </section>
   );
@@ -2450,6 +2554,48 @@ function ProjectLayers() {
             <p>{layer.body}</p>
           </MotionCard>
         ))}
+      </div>
+    </section>
+  );
+}
+
+function WritersSection() {
+  return (
+    <section className="section writers-section">
+      <div className="container writers-grid">
+        <motion.div
+          className="writers-copy"
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.28 }}
+          variants={reveal}
+          transition={{ duration: 0.65 }}
+        >
+          <p className="eyebrow">For writers</p>
+          <h2>Novelative is for writers.</h2>
+          <p>
+            The product is shaped around the practical work of building a book:
+            drafting, organizing, revising, and keeping story context close.
+          </p>
+        </motion.div>
+
+        <motion.ul
+          className="writer-point-list"
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.22 }}
+          variants={reveal}
+          transition={{ duration: 0.65, delay: 0.08 }}
+        >
+          {writerPoints.map((point, index) => (
+            <li className="writer-point" key={point}>
+              <span className="writer-point-marker">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <p>{point}</p>
+            </li>
+          ))}
+        </motion.ul>
       </div>
     </section>
   );
