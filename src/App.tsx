@@ -1201,9 +1201,11 @@ function StoryShiftSection() {
       featureItems: [
         "Visualize view",
         "infinite Canvas's",
-        "visualize-able wiki-links",
+        "visualize-able files by wiki-links",
+        "visualize-able files by tags",
         "cross-linkable editor notes",
-        "and so much more.",
+        "file cards in the canvas snap together",
+        "or link file cards to each other",
       ],
     },
   ];
@@ -1261,12 +1263,26 @@ function StoryShiftSection() {
                 </motion.span>
               )}
               {line.featureItems && (
-                <span className="story-shift-feature-list">
+                <span
+                  className="story-shift-feature-list"
+                  style={
+                    {
+                      "--feature-count": line.featureItems.length,
+                    } as CSSProperties
+                  }
+                >
                   {line.featureItems.map((feature, index) => (
                     <span
                       className="story-shift-feature-item"
                       key={feature}
-                      style={{ "--feature-index": index } as CSSProperties}
+                      style={
+                        {
+                          "--feature-index": index,
+                          "--feature-delay": `${
+                            (index * 6) / line.featureItems.length
+                          }s`,
+                        } as CSSProperties
+                      }
                     >
                       {feature}
                     </span>

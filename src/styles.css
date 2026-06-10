@@ -528,7 +528,7 @@ html.light-mode .story-shift-feature-list {
 .story-shift-feature-item {
     color: var(--story-shift-feature-muted);
     animation: story-shift-feature-pulse 6s ease-in-out infinite;
-    animation-delay: calc(var(--feature-index) * 0.8s);
+    animation-delay: var(--feature-delay);
 }
 
 .story-shift-feature-item + .story-shift-feature-item::before {
@@ -541,13 +541,13 @@ html.light-mode .story-shift-feature-list {
 
 @keyframes story-shift-feature-pulse {
     0%,
-    18%,
+    14%,
     100% {
         color: var(--story-shift-feature-muted);
         text-shadow: none;
     }
 
-    9% {
+    7% {
         color: rgb(var(--color-app-highlight));
         text-shadow: 0 0 18px rgba(var(--color-app-highlight), 0.28);
     }
