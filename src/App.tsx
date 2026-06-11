@@ -1143,11 +1143,7 @@ function Hero({ theme }: { theme: Theme }) {
           </p>
           <div className="hero-actions">
             <a className="primary-button" href="/download">
-              Try Beta Free
-            </a>
-            <a className="ghost-button" href="/features">
-              Explore Features
-              <ArrowRight size={17} />
+              Beta is now available! -&gt;
             </a>
           </div>
         </motion.div>
@@ -1253,10 +1249,10 @@ function StoryShiftSection() {
                   className="story-shift-line-sweep"
                   variants={textSweepMotion}
                   transition={{
-                    duration: 3.52,
-                    delay: 0.16,
+                    duration: 1.02,
+                    delay: 0.06,
                     ease: "easeInOut",
-                    times: [0, 0.5, 1],
+                    times: [0.1, 0.5, 1],
                   }}
                 >
                   {line.text}
@@ -1521,7 +1517,7 @@ function WhyExists() {
           transition={{ duration: 0.65 }}
         >
           <p className="eyebrow">Wiki-links</p>
-          <h2>Turn draft references into living structure.</h2>
+          <h2>Turn references into links.</h2>
           <p>
             Link characters, relics, places, and timelines directly inside the
             prose, then follow those mentions back into the wider story when the
@@ -2235,7 +2231,7 @@ function NodeCardShowcase() {
           transition={{ duration: 0.65 }}
         >
           <p className="eyebrow">Canvas</p>
-          <h2>Plot with cards that behave like story pieces.</h2>
+          <h2>Plot with file cards.</h2>
           <p>
             Drop scenes, characters, and objects onto the canvas, then snap them
             into the structure you need.
