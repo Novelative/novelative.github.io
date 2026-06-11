@@ -1231,63 +1231,71 @@ function StoryShiftSection() {
   return (
     <section className="section story-shift-section">
       <div className="container story-shift-copy">
-        {storyShiftLines.map((line) => (
-          <motion.p
-            className="story-shift-line"
-            key={line.text}
-            initial={shouldReduceMotion ? false : "hidden"}
-            whileInView={shouldReduceMotion ? undefined : "show"}
-            viewport={{ once: true, amount: 0.5, margin: "0px 0px -45% 0px" }}
-            variants={lineMotion}
-            transition={{ duration: 0.74, ease: "easeOut" }}
-          >
-            <span className="story-shift-line-text">
-              <span className="story-shift-line-base">{line.text}</span>
-              {!shouldReduceMotion && (
-                <motion.span
-                  aria-hidden="true"
-                  className="story-shift-line-sweep"
-                  variants={textSweepMotion}
-                  transition={{
-                    duration: 1.02,
-                    delay: 0.06,
-                    ease: "easeInOut",
-                    times: [0.1, 0.5, 1],
-                  }}
-                >
-                  {line.text}
-                </motion.span>
-              )}
-              {line.featureItems && (
-                <span
-                  className="story-shift-feature-list"
-                  style={
-                    {
-                      "--feature-count": line.featureItems.length,
-                    } as CSSProperties
-                  }
-                >
-                  {line.featureItems.map((feature, index) => (
-                    <span
-                      className="story-shift-feature-item"
-                      key={feature}
-                      style={
-                        {
-                          "--feature-index": index,
-                          "--feature-delay": `${
-                            (index * 6) / line.featureItems.length
-                          }s`,
-                        } as CSSProperties
-                      }
-                    >
-                      {feature}
-                    </span>
-                  ))}
-                </span>
-              )}
-            </span>
-          </motion.p>
-        ))}
+        {storyShiftLines.map((line) => {
+          const featureItems = line.featureItems;
+
+          return (
+            <motion.p
+              className="story-shift-line"
+              key={line.text}
+              initial={shouldReduceMotion ? false : "hidden"}
+              whileInView={shouldReduceMotion ? undefined : "show"}
+              viewport={{
+                once: true,
+                amount: 0.5,
+                margin: "0px 0px -45% 0px",
+              }}
+              variants={lineMotion}
+              transition={{ duration: 0.74, ease: "easeOut" }}
+            >
+              <span className="story-shift-line-text">
+                <span className="story-shift-line-base">{line.text}</span>
+                {!shouldReduceMotion && (
+                  <motion.span
+                    aria-hidden="true"
+                    className="story-shift-line-sweep"
+                    variants={textSweepMotion}
+                    transition={{
+                      duration: 1.02,
+                      delay: 0.06,
+                      ease: "easeInOut",
+                      times: [0.1, 0.5, 1],
+                    }}
+                  >
+                    {line.text}
+                  </motion.span>
+                )}
+                {featureItems && (
+                  <span
+                    className="story-shift-feature-list"
+                    style={
+                      {
+                        "--feature-count": featureItems.length,
+                      } as CSSProperties
+                    }
+                  >
+                    {featureItems.map((feature, index) => (
+                      <span
+                        className="story-shift-feature-item"
+                        key={feature}
+                        style={
+                          {
+                            "--feature-index": index,
+                            "--feature-delay": `${
+                              (index * 6) / featureItems.length
+                            }s`,
+                          } as CSSProperties
+                        }
+                      >
+                        {feature}
+                      </span>
+                    ))}
+                  </span>
+                )}
+              </span>
+            </motion.p>
+          );
+        })}
       </div>
     </section>
   );
