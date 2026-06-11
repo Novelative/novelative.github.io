@@ -581,50 +581,6 @@ html.light-mode .story-shift-feature-list {
     will-change: clip-path, opacity, filter;
 }
 
-.home-download-prompt {
-    border-top: 1px solid rgba(var(--color-app-border), 0.72);
-    background: rgb(var(--color-app-bg));
-    padding: clamp(3rem, 5vw, 4.5rem) 0;
-}
-
-.home-download-prompt.surface {
-    background:
-        linear-gradient(
-            135deg,
-            rgba(var(--color-app-highlight), 0.09),
-            rgba(var(--color-app-surface), 0.94) 42%,
-            rgba(var(--color-app-bg), 0.98)
-        );
-}
-
-.home-download-prompt-inner {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: center;
-    gap: clamp(1.5rem, 4vw, 3rem);
-}
-
-.home-download-prompt-copy {
-    max-width: 760px;
-}
-
-.home-download-prompt-copy h2 {
-    margin: 0 0 0.75rem;
-    font-size: clamp(1.8rem, 3.6vw, 3rem);
-}
-
-.home-download-prompt-copy p:not(.eyebrow) {
-    margin: 0;
-    color: rgb(var(--color-app-muted));
-    font-size: 1rem;
-    line-height: 1.7;
-}
-
-.home-download-button {
-    min-width: 220px;
-    white-space: nowrap;
-}
-
 .section {
     padding: clamp(5rem, 8vw, 7rem) 0;
 }
@@ -4358,11 +4314,11 @@ a.inline-icon:focus-visible {
     transform: scale(1.02);
 }
 
-.download-main-button svg:last-child {
+.download-main-button svg {
     transition: transform 180ms ease;
 }
 
-.download-main-button:hover svg:last-child {
+.download-main-button:hover svg {
     transform: translateX(0.25rem);
 }
 
@@ -5254,16 +5210,6 @@ a.inline-icon:focus-visible {
 
     .final-download-note {
         text-align: center;
-    }
-
-    .home-download-prompt-inner {
-        grid-template-columns: 1fr;
-        text-align: center;
-    }
-
-    .home-download-button {
-        width: 100%;
-        white-space: normal;
     }
 
     .studio-board-header {
