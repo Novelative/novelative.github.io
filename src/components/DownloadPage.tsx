@@ -41,6 +41,12 @@ export function DownloadPage({ theme }: { theme: Theme }) {
     preferredPlatform === "mac"
       ? "Download for macOS"
       : "Download for Windows";
+  const mainBuild = downloadBuilds.find((build) =>
+    preferredPlatform === "mac"
+      ? build.platform.startsWith("macOS")
+      : build.platform.startsWith("Windows"),
+  );
+  const MainDownloadIcon = mainBuild?.icon;
 
   useEffect(() => {
     document.title = "Download | Novelative";
@@ -68,6 +74,7 @@ export function DownloadPage({ theme }: { theme: Theme }) {
             You get 30 days of use <strong>FREE</strong>.
           </p>
           <a className="download-main-button" href={mainDownload}>
+            {MainDownloadIcon && <MainDownloadIcon size={20} />}
             <span>{mainLabel}</span>
             <ArrowRight size={19} />
           </a>

@@ -816,6 +816,27 @@ const stats = [
   { value: "1", label: "Project workspace" },
 ];
 
+const homeDownloadPrompts = [
+  {
+    eyebrow: "Free beta",
+    title: "Try the workspace before your next chapter gets complicated.",
+    body: "Download Novelative for Windows or macOS and start a 30-day trial with no account gate.",
+    action: "Open download page",
+  },
+  {
+    eyebrow: "Start mapping",
+    title: "Bring one messy project into Novelative and see the connections.",
+    body: "The download page has the current beta build, release details, and install help in one place.",
+    action: "Download the beta",
+  },
+  {
+    eyebrow: "Local-first trial",
+    title: "Install once, write locally, and keep the project on your device.",
+    body: "Use the free trial to test the writing, planning, visualizing, and export workflow on your own machine.",
+    action: "Get Novelative",
+  },
+] as const;
+
 const faqs = [
   {
     question: "Is my writing stored in the cloud?",
@@ -970,17 +991,20 @@ function App() {
           <>
             <Hero theme={theme} />
             <StoryShiftSection />
+            <HomeDownloadPrompt prompt={homeDownloadPrompts[0]} />
             {/* <JumpNav /> */}
             {/* <CoreViews /> */}
             <WhyExists />
             <NodeCardShowcase />
             <VisualizeStoryMap />
+            <HomeDownloadPrompt prompt={homeDownloadPrompts[1]} tone="surface" />
             <WorldBuilding theme={theme} />
             <Compare />
             <ProjectLayers />
             <WritersSection />
             <BetaPrinciples />
             <Ownership />
+            <HomeDownloadPrompt prompt={homeDownloadPrompts[2]} />
             <Faq />
             <CommunityCta />
             <DownloadCta />
@@ -1013,6 +1037,31 @@ function useStoredTheme() {
   }, [theme]);
 
   return [theme, setTheme] as const;
+}
+
+function HomeDownloadPrompt({
+  prompt,
+  tone = "plain",
+}: {
+  prompt: (typeof homeDownloadPrompts)[number];
+  tone?: "plain" | "surface";
+}) {
+  return (
+    <section className={`home-download-prompt ${tone}`}>
+      <div className="container home-download-prompt-inner">
+        <div className="home-download-prompt-copy">
+          <p className="eyebrow">{prompt.eyebrow}</p>
+          <h2>{prompt.title}</h2>
+          <p>{prompt.body}</p>
+        </div>
+        <a className="primary-button home-download-button" href="/download">
+          <Download size={18} />
+          {prompt.action}
+          <ArrowRight size={17} />
+        </a>
+      </div>
+    </section>
+  );
 }
 
 function Header({
@@ -2767,10 +2816,10 @@ function DownloadCta() {
     <section id="download" className="section final-cta">
       <div className="narrow-container">
         <h2>
-          Start the next draft in a workspace built for the book around it.
+          Download Novelative
         </h2>
         <p>
-          Try Novelative free for 30 days of use on Windows or macOS. No sign-up, and your projects stay on your device.
+          No sign-up, and your projects stay on your device.
         </p>
         <div className="final-download-actions">
           <div className="final-download-buttons">
@@ -2785,13 +2834,6 @@ function DownloadCta() {
               </a>
             ))}
           </div>
-          <a className="final-download-page-link" href="/download">
-            View download page
-            <ArrowRight size={16} />
-          </a>
-          <span className="final-download-note">
-            One-time purchase after trial. Your projects stay local.
-          </span>
         </div>
       </div>
     </section>
