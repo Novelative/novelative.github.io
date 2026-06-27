@@ -12,13 +12,13 @@ import { MotionCard, ParticleCanvas, reveal } from "./shared";
 const releaseLinks = [
   {
     label: "Windows Release",
-    href: "https://github.com/Novelative/Win-User-Releases/releases/tag/v0.1.6-beta",
+    href: "https://github.com/Novelative/Win-User-Releases/releases/tag/v0.1.8-beta",
     icon: MonitorDown,
     primary: true,
   },
   {
     label: "macOS Release",
-    href: "https://github.com/Novelative/Mac-User-Releases/releases/tag/v0.1.6-beta",
+    href: "https://github.com/Novelative/Mac-User-Releases/releases/tag/v0.1.7-beta",
     icon: Apple,
     primary: false,
   },
@@ -28,7 +28,7 @@ const releaseFacts = [
   { label: "Status", value: "Beta" },
   { label: "Trial", value: "30 days of use free" },
   { label: "Pricing Model", value: "One-time purchase" },
-  { label: "Platforms", value: "Windows + macOS" },
+  { label: "Latest Builds", value: "Windows v0.1.8-beta, macOS v0.1.7-beta" },
 ];
 
 const releaseCards = [
@@ -84,10 +84,13 @@ export function ReleaseNotesPage() {
           <div className="release-top-grid">
             <MotionCard className="release-card release-current-card">
               <p className="eyebrow">Current Release</p>
-              <h2>Novelative v0.1.6-beta</h2>
+              <h2>Novelative v0.1.8-beta for Windows</h2>
               <p>
-                Published June 5, 2026 for both Windows and macOS. This is
-                the current public beta build promoted from the download page.
+                Published June 27, 2026 for Windows. This beta adds Google Docs
+                import, expands Scrivener import fidelity with tags and status
+                icons, improves styled-text and AI code-block paste behavior,
+                and polishes pasted-font toolbar feedback. The macOS release
+                link remains on v0.1.7-beta until the Mac build is published.
               </p>
               <div className="release-action-row">
                 {releaseLinks.map((link) => (

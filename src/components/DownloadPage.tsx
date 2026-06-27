@@ -41,6 +41,9 @@ export function DownloadPage({ theme }: { theme: Theme }) {
     preferredPlatform === "mac"
       ? "Download for macOS"
       : "Download for Windows";
+  const mainVersion =
+    preferredPlatform === "mac" ? "macOS v0.1.7-beta" : "Windows v0.1.8-beta";
+  const mainSize = preferredPlatform === "mac" ? "127.8 MB" : "113.7 MB";
 
   useEffect(() => {
     document.title = "Download | Novelative";
@@ -72,9 +75,9 @@ export function DownloadPage({ theme }: { theme: Theme }) {
             <ArrowRight size={19} />
           </a>
           <div className="download-version">
-            <span>v0.1.6-beta</span>
+            <span>{mainVersion}</span>
             <span />
-            <span>104 MB</span>
+            <span>{mainSize}</span>
           </div>
           <div className="download-proof-row">
             <span>Windows + macOS</span>
@@ -92,14 +95,15 @@ export function DownloadPage({ theme }: { theme: Theme }) {
             <MotionCard className="download-panel download-release-panel">
               <p className="eyebrow">Latest Release</p>
               <div className="download-release-heading">
-                <h2>v0.1.6-beta</h2>
-                <span>Published June 5, 2026</span>
+                <h2>Windows v0.1.8-beta</h2>
+                <span>Published June 27, 2026</span>
               </div>
               <p>
-                This download page now matches the current public beta release
-                on GitHub for both platforms. Install first, explore the full
-                workspace for 30 days of use, and purchase only if Novelative fits your
-                process.
+                This Windows beta adds Google Docs import, richer Scrivener
+                import support, stronger paste handling for styled text and AI
+                code blocks, cleaner pasted-font toolbar feedback, and the
+                latest stability fixes. The macOS download remains on the most
+                recent published Mac build until the next Mac release is built.
               </p>
               <div className="download-build-grid">
                 {downloadBuilds.map((build) => (
