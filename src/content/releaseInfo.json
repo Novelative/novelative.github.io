@@ -7,7 +7,7 @@
     "version": "v0.1.8-beta",
     "platform": "Windows and macOS",
     "publishedDate": "June 27, 2026",
-    "summary": "This beta adds the first implementation of Scrivener project import, Google Docs import, improved paste handling for styled text and AI code blocks, clearer pasted-font toolbar feedback, and the latest stability fixes."
+    "summary": "This beta adds the first implementation of Scrivener project import, Google Docs import, improved paste handling for styled text, clearer pasted-font toolbar feedback, and the latest stability fixes."
   },
   "platforms": {
     "windows": {
