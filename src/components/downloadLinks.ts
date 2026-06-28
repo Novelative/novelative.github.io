@@ -1,24 +1,29 @@
 import { Apple, MonitorDown } from "lucide-react";
+import releaseInfo from "../content/releaseInfo.json";
 
 export const winDownloadUrl =
-  "https://github.com/Novelative/Win-User-Releases/releases/latest/download/Novelative-Setup.exe";
+  releaseInfo.platforms.windows.downloadUrl;
 
 export const macDownloadUrl =
-  "https://github.com/Novelative/Mac-User-Releases/releases/latest/download/Novelative-Setup-arm64.dmg";
+  releaseInfo.platforms.mac.downloadUrl;
 
 export const downloadBuilds = [
   {
-    platform: "Windows Installer",
-    file: "Novelative-Setup.exe",
-    size: "113.7 MB",
+    platform: releaseInfo.platforms.windows.installerLabel,
+    file: releaseInfo.platforms.windows.file,
+    size: releaseInfo.platforms.windows.size,
     href: winDownloadUrl,
+    version: releaseInfo.platforms.windows.version,
     icon: MonitorDown,
   },
   {
-    platform: "macOS Installer",
-    file: "Novelative-Setup-arm64.dmg",
-    size: "127.8 MB",
+    platform: releaseInfo.platforms.mac.installerLabel,
+    file: releaseInfo.platforms.mac.file,
+    size: releaseInfo.platforms.mac.size,
     href: macDownloadUrl,
+    version: releaseInfo.platforms.mac.version,
     icon: Apple,
   },
 ];
+
+export { releaseInfo };

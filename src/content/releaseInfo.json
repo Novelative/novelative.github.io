@@ -1,0 +1,38 @@
+{
+  "status": "Beta",
+  "trial": "30 days of use free",
+  "pricingModel": "One-time purchase",
+  "currentRelease": {
+    "title": "Novelative v0.1.8-beta",
+    "version": "v0.1.8-beta",
+    "platform": "Windows and macOS",
+    "publishedDate": "June 27, 2026",
+    "summary": "This beta adds the first implementation of Scrivener project import, Google Docs import, improved paste handling for styled text and AI code blocks, clearer pasted-font toolbar feedback, and the latest stability fixes."
+  },
+  "platforms": {
+    "windows": {
+      "label": "Windows",
+      "buttonLabel": "Download for Windows",
+      "releaseLabel": "Windows Release",
+      "installerLabel": "Windows Installer",
+      "version": "v0.1.8-beta",
+      "publishedDate": "June 27, 2026",
+      "file": "Novelative-Setup.exe",
+      "size": "113.7 MB",
+      "downloadUrl": "https://github.com/Novelative/Win-User-Releases/releases/latest/download/Novelative-Setup.exe",
+      "releaseUrl": "https://github.com/Novelative/Win-User-Releases/releases/tag/v0.1.8-beta"
+    },
+    "mac": {
+      "label": "macOS",
+      "buttonLabel": "Download for macOS",
+      "releaseLabel": "macOS Release",
+      "installerLabel": "macOS Installer",
+      "version": "v0.1.8-beta",
+      "publishedDate": "June 27, 2026",
+      "file": "Novelative-Setup-arm64.dmg",
+      "size": "127.8 MB",
+      "downloadUrl": "https://github.com/Novelative/Mac-User-Releases/releases/latest/download/Novelative-Setup-arm64.dmg",
+      "releaseUrl": "https://github.com/Novelative/Mac-User-Releases/releases/tag/v0.1.8-beta"
+    }
+  }
+}

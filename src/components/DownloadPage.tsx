@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react";
 import {
   downloadBuilds,
   macDownloadUrl,
+  releaseInfo,
   winDownloadUrl,
 } from "./downloadLinks";
 import type { Theme } from "./shared";
@@ -39,11 +40,16 @@ export function DownloadPage({ theme }: { theme: Theme }) {
     preferredPlatform === "mac" ? macDownloadUrl : winDownloadUrl;
   const mainLabel =
     preferredPlatform === "mac"
-      ? "Download for macOS"
-      : "Download for Windows";
+      ? releaseInfo.platforms.mac.buttonLabel
+      : releaseInfo.platforms.windows.buttonLabel;
   const mainVersion =
-    preferredPlatform === "mac" ? "macOS v0.1.7-beta" : "Windows v0.1.8-beta";
-  const mainSize = preferredPlatform === "mac" ? "127.8 MB" : "113.7 MB";
+    preferredPlatform === "mac"
+      ? `${releaseInfo.platforms.mac.label} ${releaseInfo.platforms.mac.version}`
+      : `${releaseInfo.platforms.windows.label} ${releaseInfo.platforms.windows.version}`;
+  const mainSize =
+    preferredPlatform === "mac"
+      ? releaseInfo.platforms.mac.size
+      : releaseInfo.platforms.windows.size;
 
   useEffect(() => {
     document.title = "Download | Novelative";
@@ -95,16 +101,10 @@ export function DownloadPage({ theme }: { theme: Theme }) {
             <MotionCard className="download-panel download-release-panel">
               <p className="eyebrow">Latest Release</p>
               <div className="download-release-heading">
-                <h2>Windows v0.1.8-beta</h2>
-                <span>Published June 27, 2026</span>
+                <h2>{releaseInfo.currentRelease.title}</h2>
+                <span>Published {releaseInfo.currentRelease.publishedDate}</span>
               </div>
-              <p>
-                This Windows beta adds Google Docs import, richer Scrivener
-                import support, stronger paste handling for styled text and AI
-                code blocks, cleaner pasted-font toolbar feedback, and the
-                latest stability fixes. The macOS download remains on the most
-                recent published Mac build until the next Mac release is built.
-              </p>
+              <p>{releaseInfo.currentRelease.summary}</p>
               <div className="download-build-grid">
                 {downloadBuilds.map((build) => (
                   <a
