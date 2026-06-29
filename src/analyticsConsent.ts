@@ -27,13 +27,11 @@ declare global {
 
 const CONSENT_STORAGE_KEY = "novelativeCookieConsent";
 const CONSENT_VERSION = 1;
-const GOOGLE_ANALYTICS_ID = "G-T9DS3YHVV6";
 const REDDIT_PIXEL_ID =
   ((import.meta as ImportMeta & { env?: Record<string, string | undefined> })
     .env?.VITE_REDDIT_PIXEL_ID ?? "").trim();
 
 let googleConsentInitialized = false;
-let googleConfigured = false;
 let redditConfigured = false;
 
 export function hasGlobalPrivacyControl() {
@@ -85,9 +83,7 @@ export function applyConsentPreferences(preferences: ConsentPreferences) {
   initializeGoogleConsent();
   updateGoogleConsent(normalized);
 
-  if (normalized.analytics) {
-    loadGoogleAnalytics(normalized);
-  } else {
+  if (!normalized.analytics) {
     deleteCookies(["_ga", "_gid", "_gat", "_gac", "_gcl"]);
   }
 
@@ -144,24 +140,13 @@ function updateGoogleConsent(preferences: ConsentPreferences) {
     ad_personalization: preferences.marketing ? "granted" : "denied",
     analytics_storage: preferences.analytics ? "granted" : "denied",
   });
-}
 
-function loadGoogleAnalytics(preferences: ConsentPreferences) {
-  loadScript(
-    "novelative-google-analytics",
-    `https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_ID}`,
-    true,
+  window.gtag?.("set", "allow_google_signals", preferences.marketing);
+  window.gtag?.(
+    "set",
+    "allow_ad_personalization_signals",
+    preferences.marketing,
   );
-
-  if (!googleConfigured) {
-    window.gtag?.("js", new Date());
-    googleConfigured = true;
-  }
-
-  window.gtag?.("config", GOOGLE_ANALYTICS_ID, {
-    allow_google_signals: preferences.marketing,
-    allow_ad_personalization_signals: preferences.marketing,
-  });
 }
 
 function loadRedditPixel() {

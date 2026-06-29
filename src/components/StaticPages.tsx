@@ -53,7 +53,7 @@ const privacySections: StaticPageSection[] = [
     items: [
       "License validation: Our server verifies your license key and a hardware identifier to manage device limits.",
       "Crash reports: If enabled, anonymous crash details may be sent to help diagnose issues. These reports do not include manuscript text.",
-      "Website analytics: With your consent, the website uses Google Analytics to understand traffic, pages viewed, and download activity.",
+      "Website analytics: With your consent, the website uses Google Tag Manager and Google Analytics to understand traffic, pages viewed, and download activity.",
       "Advertising measurement: With your consent, the website may use Reddit Pixel and Lemon Squeezy affiliate tracking to measure ad performance, referrals, and purchases.",
     ],
   },
@@ -67,7 +67,7 @@ const privacySections: StaticPageSection[] = [
   },
   {
     title: "6. Third-Party Services",
-    body: "Google, Reddit, Stripe, Lemon Squeezy, EmailJS, and related service providers may process limited website, payment, support, or delivery data according to their own policies and our configuration of those services. We do not sell manuscript, note, or project content.",
+    body: "Google Tag Manager, Google Analytics, Reddit, Stripe, Lemon Squeezy, EmailJS, and related service providers may process limited website, payment, support, or delivery data according to their own policies and our configuration of those services. We do not sell manuscript, note, or project content.",
   },
   {
     title: "7. Updates",

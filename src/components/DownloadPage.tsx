@@ -7,6 +7,7 @@ import {
   releaseInfo,
   winDownloadUrl,
 } from "./downloadLinks";
+import { trackDownloadLinkClick } from "../downloadAnalytics";
 import type { Theme } from "./shared";
 import {
   MotionCard,
@@ -42,10 +43,18 @@ export function DownloadPage({ theme }: { theme: Theme }) {
     preferredPlatform === "mac"
       ? releaseInfo.platforms.mac.buttonLabel
       : releaseInfo.platforms.windows.buttonLabel;
+  const mainReleaseVersion =
+    preferredPlatform === "mac"
+      ? releaseInfo.platforms.mac.version
+      : releaseInfo.platforms.windows.version;
+  const mainFile =
+    preferredPlatform === "mac"
+      ? releaseInfo.platforms.mac.file
+      : releaseInfo.platforms.windows.file;
   const mainVersion =
     preferredPlatform === "mac"
-      ? `${releaseInfo.platforms.mac.label} ${releaseInfo.platforms.mac.version}`
-      : `${releaseInfo.platforms.windows.label} ${releaseInfo.platforms.windows.version}`;
+      ? `${releaseInfo.platforms.mac.label} ${mainReleaseVersion}`
+      : `${releaseInfo.platforms.windows.label} ${mainReleaseVersion}`;
   const mainSize =
     preferredPlatform === "mac"
       ? releaseInfo.platforms.mac.size
@@ -76,7 +85,21 @@ export function DownloadPage({ theme }: { theme: Theme }) {
             <br />
             You get 30 days of use <strong>FREE</strong>.
           </p>
-          <a className="download-main-button" href={mainDownload}>
+          <a
+            className="download-main-button"
+            href={mainDownload}
+            onClick={(event) =>
+              trackDownloadLinkClick(event, {
+                platform: preferredPlatform,
+                source: "download_page",
+                button: "hero",
+                url: mainDownload,
+                fileName: mainFile,
+                version: mainReleaseVersion,
+                linkText: mainLabel,
+              })
+            }
+          >
             <span>{mainLabel}</span>
             <ArrowRight size={19} />
           </a>
@@ -111,6 +134,17 @@ export function DownloadPage({ theme }: { theme: Theme }) {
                     className="download-build-card"
                     href={build.href}
                     key={build.platform}
+                    onClick={(event) =>
+                      trackDownloadLinkClick(event, {
+                        platform: build.platformKey,
+                        source: "download_page",
+                        button: "release_card",
+                        url: build.href,
+                        fileName: build.file,
+                        version: build.version,
+                        linkText: build.platform,
+                      })
+                    }
                   >
                     <div>
                       <strong>{build.platform}</strong>

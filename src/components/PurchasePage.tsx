@@ -16,6 +16,7 @@ import {
   reveal,
 } from "./shared";
 import { downloadBuilds } from "./downloadLinks";
+import { trackDownloadLinkClick } from "../downloadAnalytics";
 
 const purchaseUrl =
   "https://novelative.lemonsqueezy.com/checkout/buy/58b937de-134c-4bdb-ab55-90896c503fa2?embed=1&media=0&desc=0";
@@ -282,7 +283,21 @@ export function PurchasePage() {
 
             <div className="purchase-download-builds">
               {downloadBuilds.map((build) => (
-                <a href={build.href} key={build.platform}>
+                <a
+                  href={build.href}
+                  key={build.platform}
+                  onClick={(event) =>
+                    trackDownloadLinkClick(event, {
+                      platform: build.platformKey,
+                      source: "purchase_page",
+                      button: "purchase_download_panel",
+                      url: build.href,
+                      fileName: build.file,
+                      version: build.version,
+                      linkText: build.platform,
+                    })
+                  }
+                >
                   <span>
                     <strong>{build.platform}</strong>
                     <small>{build.file}</small>

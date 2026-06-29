@@ -1,6 +1,8 @@
 import { Apple, MonitorDown } from "lucide-react";
 import releaseInfo from "../content/releaseInfo.json";
 
+export type DownloadPlatform = "windows" | "mac";
+
 export const winDownloadUrl =
   releaseInfo.platforms.windows.downloadUrl;
 
@@ -9,6 +11,7 @@ export const macDownloadUrl =
 
 export const downloadBuilds = [
   {
+    platformKey: "windows" as const,
     platform: releaseInfo.platforms.windows.installerLabel,
     file: releaseInfo.platforms.windows.file,
     size: releaseInfo.platforms.windows.size,
@@ -17,6 +20,7 @@ export const downloadBuilds = [
     icon: MonitorDown,
   },
   {
+    platformKey: "mac" as const,
     platform: releaseInfo.platforms.mac.installerLabel,
     file: releaseInfo.platforms.mac.file,
     size: releaseInfo.platforms.mac.size,

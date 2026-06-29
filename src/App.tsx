@@ -9,6 +9,7 @@ import { BlogPage } from "./components/BlogPage";
 import { CookieConsent } from "./components/CookieConsent";
 import { DownloadPage } from "./components/DownloadPage";
 import { downloadBuilds } from "./components/downloadLinks";
+import { trackDownloadLinkClick } from "./downloadAnalytics";
 import { PurchasePage } from "./components/PurchasePage";
 import { ReleaseNotesPage } from "./components/ReleaseNotesPage";
 import { SupportPage } from "./components/SupportPage";
@@ -2787,6 +2788,17 @@ function DownloadCta() {
                 className="final-download-button"
                 href={build.href}
                 key={build.platform}
+                onClick={(event) =>
+                  trackDownloadLinkClick(event, {
+                    platform: build.platformKey,
+                    source: "homepage",
+                    button: "final_cta",
+                    url: build.href,
+                    fileName: build.file,
+                    version: build.version,
+                    linkText: `Download for ${build.platform.split(" ")[0]}`,
+                  })
+                }
               >
                 <build.icon size={20} />
                 <span>Download for {build.platform.split(" ")[0]}</span>
