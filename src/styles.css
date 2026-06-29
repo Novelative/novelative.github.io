@@ -3111,6 +3111,74 @@ a.inline-icon:focus-visible {
     color: rgb(var(--color-app-highlight));
 }
 
+.release-changelog {
+    display: grid;
+    gap: 1.35rem;
+    margin-top: clamp(1.5rem, 4vw, 2.75rem);
+}
+
+.release-section-heading {
+    max-width: 760px;
+}
+
+.release-section-heading h2 {
+    margin: 0 0 0.8rem;
+    font-family: "Playfair Display", serif;
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    line-height: 1.05;
+}
+
+.release-section-heading > p:not(.eyebrow) {
+    margin: 0;
+    color: rgb(var(--color-app-muted));
+    line-height: 1.7;
+}
+
+.release-changelog-list {
+    display: grid;
+    gap: 1rem;
+}
+
+.release-changelog-card {
+    display: grid;
+    gap: 1rem;
+}
+
+.release-changelog-card h3 {
+    margin: 0;
+    font-family: "Playfair Display", serif;
+    font-size: clamp(1.7rem, 3vw, 2.25rem);
+    line-height: 1.1;
+}
+
+.release-changelog-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+}
+
+.release-changelog-meta span {
+    border: 1px solid rgb(var(--color-app-border));
+    border-radius: 999px;
+    padding: 0.35rem 0.7rem;
+    color: rgb(var(--color-app-muted));
+    font-size: 0.88rem;
+    font-weight: 750;
+}
+
+.release-changelog-card ul {
+    display: grid;
+    gap: 0.55rem;
+    margin: 0;
+    padding-left: 1.2rem;
+    color: rgb(var(--color-app-muted));
+    line-height: 1.65;
+}
+
+.release-changelog-card li::marker {
+    color: rgb(var(--color-app-highlight));
+}
+
 .blog-page {
     position: relative;
     overflow: hidden;

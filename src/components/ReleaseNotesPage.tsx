@@ -59,6 +59,54 @@ const releaseCards = [
   },
 ];
 
+const releaseChangelog = [
+  {
+    version: releaseInfo.currentRelease.version,
+    title: releaseInfo.currentRelease.title,
+    date: releaseInfo.currentRelease.publishedDate,
+    platform: releaseInfo.currentRelease.platform,
+    changes: [
+      "Added the first implementation of Scrivener project import.",
+      "Added Google Docs import for bringing in externally drafted work.",
+      "Improved paste handling for styled text and clearer pasted-font toolbar feedback.",
+      "Included the latest stability fixes for the current beta builds.",
+    ],
+  },
+  {
+    version: "v0.1.7-beta",
+    title: "Novelative v0.1.7-beta",
+    date: "June 20, 2026",
+    platform: "Windows and macOS",
+    changes: [
+      "Updated the public beta release promoted from the download page.",
+      "Refreshed release notes and download links for the v0.1.7 beta cycle.",
+      "Kept macOS release availability visible while platform builds were being published.",
+    ],
+  },
+  {
+    version: "v0.1.6-beta",
+    title: "Novelative v0.1.6-beta",
+    date: "June 5, 2026",
+    platform: "Windows and macOS",
+    changes: [
+      "Promoted the next public beta build for both desktop platforms.",
+      "Kept GitHub release links and download messaging aligned with the public installers.",
+      "Improved the canvas node cards animation section on the website alongside the release update.",
+    ],
+  },
+  {
+    version: "v0.1.5-beta",
+    title: "Novelative v0.1.5-beta",
+    date: "May 7, 2026",
+    platform: "Windows and macOS",
+    changes: [
+      "Established the React release notes page around the current public beta.",
+      "Added Windows and macOS release links, release facts, and download-source guidance.",
+      "Preserved the original changelog structure from the old static release notes page.",
+    ],
+  },
+];
+
 export function ReleaseNotesPage() {
   const shouldReduceMotion = useReducedMotion();
 
@@ -142,6 +190,38 @@ export function ReleaseNotesPage() {
               </MotionCard>
             ))}
           </div>
+
+          <section className="release-changelog" aria-labelledby="version-history">
+            <div className="release-section-heading">
+              <p className="eyebrow">Version History</p>
+              <h2 id="version-history">Changelog</h2>
+              <p>
+                A release-by-release record of public beta updates published
+                for Novelative.
+              </p>
+            </div>
+
+            <div className="release-changelog-list">
+              {releaseChangelog.map((release, index) => (
+                <MotionCard
+                  key={release.version}
+                  className="release-card release-changelog-card"
+                  delay={index * 0.06}
+                >
+                  <div className="release-changelog-meta">
+                    <span>{release.date}</span>
+                    <span>{release.platform}</span>
+                  </div>
+                  <h3>{release.title}</h3>
+                  <ul>
+                    {release.changes.map((change) => (
+                      <li key={change}>{change}</li>
+                    ))}
+                  </ul>
+                </MotionCard>
+              ))}
+            </div>
+          </section>
         </div>
       </section>
     </>
