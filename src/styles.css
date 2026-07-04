@@ -727,18 +727,8 @@ h3 {
 }
 
 .typed-link {
-    display: inline-flex;
-    align-items: center;
-    margin-inline: 0.15rem;
-    border: 1px solid rgba(var(--color-app-highlight), 0.38);
-    border-radius: 999px;
-    padding: 0.14rem 0.46rem 0.2rem;
-    background: rgba(var(--color-app-highlight), 0.1);
     color: rgb(var(--color-app-highlight));
-    font-family: Inter, system-ui, sans-serif;
-    font-size: 0.5em;
-    font-weight: 850;
-    vertical-align: middle;
+    font: inherit;
 }
 
 .cursor {

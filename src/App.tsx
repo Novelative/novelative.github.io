@@ -1407,7 +1407,7 @@ function FeaturesPage({ theme }: { theme: Theme }) {
 
 function WhyExists() {
   const rawText =
-    "The rain lashed against the cracked cobblestones of [[Aethelgard]]. \n\nElias pulled his coat tight, feeling the heavy hum of the [[Sunfire Relic]] in his pocket. He needed to check the [[Timeline Map]] before he was caught. \n\nWith Novelative, you aren't just drafting a scene. You are weaving a connected universe.";
+    "Novelative Wiki-links turn important story details into clickable references while you draft. \n\nLink [[Characters]], [[Locations]], [[Research Notes]], and [[Timeline Events]] directly in the editor, then jump between connected pages without losing your place. \n\nEvery link helps your manuscript become a living story map instead of a stack of disconnected notes.";
   const restartDelay = 5200;
   const ref = useRef<HTMLElement | null>(null);
   const inView = useInView(ref, { amount: 0.45, once: true });
@@ -1418,9 +1418,18 @@ function WhyExists() {
     let index = 0;
     let timer = 0;
 
+    const isWikiLinkCharacter = (characterIndex: number) => {
+      const openingIndex = rawText.lastIndexOf("[[", characterIndex);
+      if (openingIndex === -1) return false;
+
+      const closingIndex = rawText.indexOf("]]", openingIndex);
+      return closingIndex === -1 || characterIndex <= closingIndex + 1;
+    };
+
     const tick = () => {
       setText(rawText.slice(0, index + 1));
-      const character = rawText[index];
+      const characterIndex = index;
+      const character = rawText[characterIndex];
       index += 1;
       if (index >= rawText.length) {
         timer = window.setTimeout(() => {
@@ -1430,6 +1439,7 @@ function WhyExists() {
         }, restartDelay);
         return;
       }
+      const isTypingWikiLink = isWikiLinkCharacter(characterIndex);
       const base =
         character === "."
           ? 380
@@ -1437,7 +1447,9 @@ function WhyExists() {
             ? 210
             : character === "\n"
               ? 300
-              : 24;
+              : isTypingWikiLink
+                ? 82
+                : 12;
       timer = window.setTimeout(tick, base + Math.random() * 32);
     };
 
@@ -1492,7 +1504,7 @@ function ParsedTypingText({ text }: { text: string }) {
         if (match) {
           return (
             <span className="typed-link" key={`${match[1]}-${index}`}>
-              [[ {match[1]} ]]
+              {match[1]}
             </span>
           );
         }
