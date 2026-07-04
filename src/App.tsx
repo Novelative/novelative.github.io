@@ -811,7 +811,7 @@ const trustCards = [
 ];
 
 const stats = [
-  { value: "30", label: "Day Trial" },
+  { value: "30", label: "Days-Of-Use Trial" },
   { value: "2", label: "Desktop platforms" },
   { value: "6", label: "Export formats" },
   { value: "1", label: "Project workspace" },
@@ -1185,118 +1185,45 @@ function JumpNav() {
 }
 
 function StoryShiftSection() {
-  const shouldReduceMotion = useReducedMotion();
-  const storyShiftLines: Array<{ text: string; featureItems?: string[] }> = [
-    {
-      text: "Todays novel writing tools don't cut it. It’s time for something groundbreaking.",
-    },
-    {
-      text: "Authors easily lose track of complex story details over time. We fix that.",
-    },
-    {
-      text: "Our tools give authors a true bird’s-eye view of their story.",
-      featureItems: [
-        "Visualize view",
-        "infinite Canvas's",
-        "visualize-able files by wiki-links",
-        "visualize-able files by tags",
-        "cross-linkable editor notes",
-        "file cards in the canvas snap together",
-        "or link file cards to each other",
-      ],
-    },
+  const storyShiftFeatures = [
+    "Visualize",
+    "Canvases",
+    "Wiki-links",
+    "Tags",
+    "Editor Notes",
+    "Linking Comments",
+    "Custom Themes",
+    "Split View",
+    "Projects",
+    "Markup / Focus",
+    "Paged / Infinite"
   ];
-  const lineMotion = shouldReduceMotion
-    ? undefined
-    : {
-        hidden: { opacity: 0.28, y: 34, filter: "blur(8px)" },
-        show: { opacity: 1, y: 0, filter: "blur(0px)" },
-      };
-  const textSweepMotion = shouldReduceMotion
-    ? undefined
-    : {
-        hidden: {
-          clipPath: "polygon(-24% 0, -8% 0, -8% 100%, -24% 100%)",
-          opacity: 0,
-        },
-        show: {
-          clipPath: [
-            "polygon(-24% 0, -8% 0, -8% 100%, -24% 100%)",
-            "polygon(40% 0, 64% 0, 64% 100%, 40% 100%)",
-            "polygon(108% 0, 124% 0, 124% 100%, 108% 100%)",
-          ],
-          opacity: [0, 1, 0],
-        },
-      };
+  const marqueeGroups = Array.from({ length: 6 }, (_, index) => index);
 
   return (
-    <section className="section story-shift-section">
-      <div className="container story-shift-copy">
-        {storyShiftLines.map((line) => {
-          const featureItems = line.featureItems;
+    <section
+      className="section story-shift-section"
+      aria-label="Novelative feature highlights"
+    >
+      <div className="story-shift-marquee">
+        <div className="story-shift-track" role="list">
+          {marqueeGroups.flatMap((group) =>
+            storyShiftFeatures.map((feature) => {
+              const isPrimaryGroup = group === 0;
 
-          return (
-            <motion.p
-              className="story-shift-line"
-              key={line.text}
-              initial={shouldReduceMotion ? false : "hidden"}
-              whileInView={shouldReduceMotion ? undefined : "show"}
-              viewport={{
-                once: true,
-                amount: 0.5,
-                margin: "0px 0px -45% 0px",
-              }}
-              variants={lineMotion}
-              transition={{ duration: 0.74, ease: "easeOut" }}
-            >
-              <span className="story-shift-line-text">
-                <span className="story-shift-line-base">{line.text}</span>
-                {!shouldReduceMotion && (
-                  <motion.span
-                    aria-hidden="true"
-                    className="story-shift-line-sweep"
-                    variants={textSweepMotion}
-                    transition={{
-                      duration: 1.02,
-                      delay: 0.06,
-                      ease: "easeInOut",
-                      times: [0.1, 0.5, 1],
-                    }}
-                  >
-                    {line.text}
-                  </motion.span>
-                )}
-                {featureItems && (
-                  <span
-                    className="story-shift-feature-list"
-                    style={
-                      {
-                        "--feature-count": featureItems.length,
-                      } as CSSProperties
-                    }
-                  >
-                    {featureItems.map((feature, index) => (
-                      <span
-                        className="story-shift-feature-item"
-                        key={feature}
-                        style={
-                          {
-                            "--feature-index": index,
-                            "--feature-delay": `${
-                              (index * 6) / featureItems.length
-                            }s`,
-                          } as CSSProperties
-                        }
-                      >
-                        {feature}
-                      </span>
-                    ))}
-                  </span>
-                )}
-              </span>
-            </motion.p>
-          );
-        })}
+              return (
+                <span
+                  aria-hidden={isPrimaryGroup ? undefined : true}
+                  className="story-shift-feature-item"
+                  key={`${group}-${feature}`}
+                  role={isPrimaryGroup ? "listitem" : undefined}
+                >
+                  {feature}
+                </span>
+              );
+            }),
+          )}
+        </div>
       </div>
     </section>
   );
@@ -1481,6 +1408,7 @@ function FeaturesPage({ theme }: { theme: Theme }) {
 function WhyExists() {
   const rawText =
     "The rain lashed against the cracked cobblestones of [[Aethelgard]]. \n\nElias pulled his coat tight, feeling the heavy hum of the [[Sunfire Relic]] in his pocket. He needed to check the [[Timeline Map]] before he was caught. \n\nWith Novelative, you aren't just drafting a scene. You are weaving a connected universe.";
+  const restartDelay = 5200;
   const ref = useRef<HTMLElement | null>(null);
   const inView = useInView(ref, { amount: 0.45, once: true });
   const [text, setText] = useState("");
@@ -1494,7 +1422,14 @@ function WhyExists() {
       setText(rawText.slice(0, index + 1));
       const character = rawText[index];
       index += 1;
-      if (index >= rawText.length) return;
+      if (index >= rawText.length) {
+        timer = window.setTimeout(() => {
+          index = 0;
+          setText("");
+          timer = window.setTimeout(tick, 500);
+        }, restartDelay);
+        return;
+      }
       const base =
         character === "."
           ? 380
@@ -1508,7 +1443,7 @@ function WhyExists() {
 
     timer = window.setTimeout(tick, 500);
     return () => window.clearTimeout(timer);
-  }, [inView]);
+  }, [inView, rawText, restartDelay]);
 
   return (
     <section

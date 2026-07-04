@@ -171,7 +171,7 @@ export function PurchasePage() {
             <div className="purchase-trust-strip" aria-label="Purchase details">
               <span>
                 <CircleCheck size={16} />
-                30-day trial first
+                30-days-of-use trial first
               </span>
               <span>
                 <CircleCheck size={16} />

@@ -38,7 +38,7 @@ Novelative is a true independent writing studio built by a solo developer who ac
 
 * **One-Time Purchase:** A flat $50. You own it forever.
 
-* **A True 30-Day Trial:** Our free trial is based on *days of use*. If you write for three days, take a two-month hiatus, and come back, you still have 27 days left to test it out.
+* **A True 30-Days-Of-Use Trial:** Our free trial is based on *days of use*. If you write for three days, take a two-month hiatus, and come back, you still have 27 days left to test it out.
 
 ## Find Your Balance
 
